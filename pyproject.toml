@@ -34,7 +34,9 @@ all = ["ancdata[vad,metrics,dev]"]
 ancdata = "ancdata.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["ancdata*"]
+include = ["ancdata*", "features*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
+
