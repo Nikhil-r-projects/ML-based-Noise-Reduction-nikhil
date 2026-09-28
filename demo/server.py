@@ -356,6 +356,76 @@ def tactical_stream():
     return Response(stream(), mimetype="text/event-stream")
 
 
+OPERATOR_NOTES = [
+    {"id": 1, "text": "Initial communications checkpoint established. Radio net online.", "tag": "NET_CONTROL", "time": "00:00:15"},
+    {"id": 2, "text": "Auditory comfort layer active. Brown noise ducking configured at -25 dB.", "tag": "SYS_ADMIN", "time": "00:01:20"}
+]
+
+
+@app.route("/api/notes", methods=["GET", "POST"])
+def api_notes():
+    if request.method == "POST":
+        data = request.get_json(silent=True) or {}
+        text = data.get("text", "").strip()
+        tag = data.get("tag", "OPERATOR")
+        if text:
+            entry = {
+                "id": len(OPERATOR_NOTES) + 1,
+                "text": text,
+                "tag": tag,
+                "time": time.strftime("%H:%M:%S")
+            }
+            OPERATOR_NOTES.append(entry)
+            return jsonify({"success": True, "note": entry})
+        return jsonify({"error": "Empty note"}), 400
+    return jsonify(OPERATOR_NOTES)
+
+
+@app.route("/api/adaptation_status")
+def api_adaptation_status():
+    """Telemetry on Gated Continual Field Adaptation (RL/self-training)."""
+    return jsonify({
+        "mode": "gated_self_training",
+        "pretraining": "synthetic_battlefield_v3.1",
+        "online_source": "field_radio_buffer",
+        "teacher_student": {
+            "teacher": "promoted_checkpoint",
+            "student_lr": 1e-5,
+            "anchor_weight": 0.001,
+            "synthetic_replay_ratio": 0.50
+        },
+        "gates": {
+            "dnsmos_bak_gain_min_db": 0.50,
+            "silence_invent_max_db": -60.0,
+            "si_snr_agreement_db": 15.0,
+            "whisper_keyword_agreement": 0.90
+        },
+        "active_status": "MONITORING_BUFFER",
+        "buffer_fill_pct": 34.2,
+        "accepted_candidates": 14,
+        "rejected_candidates": 3
+    })
+
+
+@app.route("/api/battlefield_noise")
+def api_battlefield_noise():
+    """Generate realistic battlefield audio stream for blasting during live test."""
+    sec = float(request.args.get("seconds", 10.0))
+    rng = np.random.default_rng()
+    from ancdata.fixtures import fake_noise, synth_blast
+    noise_bed = fake_noise(rng, "helicopter", sec, sr=SR)
+    blast = synth_blast(rng, sr=SR)[0]
+    if len(blast) < len(noise_bed):
+        pos = int(rng.uniform(1.0, max(1.5, sec - 2.0)) * SR)
+        noise_bed[pos:pos+len(blast)] += blast * 2.0
+    noise_bed = np.clip(noise_bed * 0.85, -1.0, 1.0).astype(np.float32)
+    return jsonify({
+        "audio": wav_b64(noise_bed),
+        "duration_s": sec,
+        "sample_rate": SR
+    })
+
+
 
 def build_chain_for(seconds: float):
     from ancdata.battlefield import BattlefieldChain
