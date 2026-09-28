@@ -77,12 +77,62 @@ Torch: `PairDataset(cfg, "train", mono=True, with_events=True)` is an `IterableD
 ancdata/      config, paths, audio, registry, snippets, pools, sampler, rir_gen, physics, lombard, adc, realcheck,
               loudness, transients, channel, battlefield, build, listen (v3)
               chain, stream, materialize, metrics, plots, demo_check, selftest, fixtures, cli, torch_dataset
+features/     comfort_audio (sidechain ducking), speech_to_text (async ASR), situational_awareness (radio parser & map)
 configs/      battlefield.yaml (v3 spec), train.yaml (v2), train_codec.yaml, eval_standard/generalization/lombard.yaml, smoke.yaml
 scripts/      download_sources.sh/.ps1, pull_battlefield.sh, zget.sh, layer_trial.py, build_battlefield.sh/.ps1
-docs/         LIT_REVIEW.md
-tests/        pytest suite (fixtures are synthetic; no downloads)
+docs/         current_architecture.md, feature_architecture.md, comfort_audio.md, speech_to_text.md,
+              situational_awareness.md, deployment_orin.md, LIT_REVIEW.md
+tests/        pytest suite (includes tests for ANC-Net, comfort audio, ASR, and situational awareness)
 data/         ANC_DATA_ROOT (git-ignored): sources/, manifest.parquet, eval/
 ```
+
+## Extended System Architecture
+
+The core ANC-Net pipeline is extended with three asynchronous cognitive augmentation capabilities:
+
+```
+                      Raw Audio Input (16 kHz Dual-Mic)
+                                     |
+                                     v
+                        ANC-Net v3 Causal Inference (12 ms)
+                                     |
+        +----------------------------+----------------------------+
+        |                                                         |
+        v                                                         v
+Enhanced Speech (1-ch 16 kHz)                        Asynchronous Non-Blocking Queue
+        |                                                         |
+        v                                                         v
+Adaptive Comfort Layer (Sidechain Ducking)                    Local ASR Engine (Whisper / ONNX)
+        |                                                         |
+        v                                                         v
+Speaker / Headset Output                               Timestamped Radio Transcript
+                                                                  |
+                                                                  v
+                                                     Deterministic Radio Protocol Parser
+                                                                  |
+                                                                  v
+                                                     Live Situational Awareness Map
+```
+
+1. **Adaptive Auditory Comfort Layer (`features/comfort_audio`)**:
+   - Optional low-level acoustic bed (1/f pink noise or 120 Hz neutral tone).
+   - Sidechain ducking: instantly fades out when speech or acoustic transients (gunfire/blasts) are detected.
+2. **Speech-to-Text Backup (`features/speech_to_text`)**:
+   - Asynchronous transcription via a bounded worker thread; zero latency added to the ANC playback stream.
+   - Pluggable backends: `faster-whisper` (CTranslate2) or offline deterministic mock.
+3. **Real-Time Situational Awareness Map (`features/situational_awareness`)**:
+   - Deterministic military radio etiquette parser extracting callsigns (`Alpha`, `Bravo`), verbs (`moving`, `reached`, `contact`), and coordinates without hallucinations.
+   - Real-time tactical radar and communication log visualizer in `demo/static/index.html` updated via Server-Sent Events (SSE).
+
+Detailed documentation:
+- [docs/current_architecture.md](docs/current_architecture.md)
+- [docs/feature_architecture.md](docs/feature_architecture.md)
+- [docs/comfort_audio.md](docs/comfort_audio.md)
+- [docs/speech_to_text.md](docs/speech_to_text.md)
+- [docs/situational_awareness.md](docs/situational_awareness.md)
+- [docs/deployment_orin.md](docs/deployment_orin.md)
+
+
 
 ## Licences of the sources
 
