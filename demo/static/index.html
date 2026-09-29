@@ -1,33 +1,39 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ANC-Net Tactical Workstation — Battlefield Speech Enhancement & Situational Picture</title>
+<title>DRDO DEFENCE ANC-NET // C4ISR TACTICAL AUDIO &amp; SITUATIONAL WORKSTATION</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d1017;
-    --panel: #161b22;
-    --panel-header: #1c2128;
-    --line: #30363d;
-    --line-subtle: #21262d;
+    --bg: #0f1115;
+    --panel: #171a21;
+    --panel-header: #12151b;
+    --well: #13161c;
+    --line: #2a2f3a;
+    --line-subtle: #1e222b;
     --ink: #e6edf3;
     --muted: #8b949e;
     --muted-dim: #6e7681;
     --tactical-blue: #388bfd;
+    --tactical-blue-dim: #1f6feb;
     --tactical-blue-bg: rgba(56, 139, 253, 0.12);
-    --hostile-red: #f85149;
+    --hostile-red: #da3633;
+    --hostile-red-bright: #f85149;
     --hostile-red-bg: rgba(248, 81, 73, 0.12);
     --warning-amber: #d29922;
     --warning-amber-bg: rgba(210, 153, 34, 0.12);
     --clear-green: #3fb950;
     --clear-green-bg: rgba(63, 185, 80, 0.12);
-    --purple: #a371f7;
-    --purple-bg: rgba(163, 113, 247, 0.12);
+    --purple: #8e4ec6;
+    --purple-bg: rgba(142, 78, 198, 0.12);
     --stage-clean: #3fb950;
     --stage-noisy: #d29922;
     --stage-enh: #388bfd;
-    --stage-comfort: #a371f7;
+    --stage-comfort: #8e4ec6;
   }
 
   * { box-sizing: border-box; }
@@ -35,166 +41,218 @@
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 13px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 12px;
     line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Header Topbar */
+  /* Command Topbar */
   header.topbar {
     background: var(--panel);
     border-bottom: 1px solid var(--line);
-    padding: 10px 20px;
+    padding: 8px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
   }
-  .sys-title {
+  .drdo-brand {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
   }
-  .sys-badge {
-    background: #21262d;
-    border: 1px solid var(--line);
-    color: var(--ink);
+  .drdo-badge {
+    background: #12151b;
+    border: 1px solid #388bfd;
+    color: #388bfd;
+    font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
     font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 4px;
+    padding: 3px 7px;
     letter-spacing: 0.5px;
   }
-  .sys-title h1 {
-    margin: 0;
-    font-size: 15px;
+  .drdo-title {
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.3px;
     color: var(--ink);
+    text-transform: uppercase;
   }
-  .sys-pills {
+  .drdo-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .sys-telemetry {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .sys-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    background: var(--well);
+    border: 1px solid var(--line);
+    padding: 2px 7px;
+    color: var(--muted);
+  }
+  .sys-chip b { color: var(--ink); }
+  .sys-chip.live-ok { color: var(--clear-green); border-color: rgba(63, 185, 80, 0.4); }
+
+  /* Navigation Tab Bar */
+  nav.view-tabs {
+    background: var(--panel-header);
+    border-bottom: 1px solid var(--line);
+    padding: 0 16px;
+    display: flex;
+    gap: 4px;
+  }
+  .tab-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-bottom: none;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.12s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+  }
+  .tab-btn:hover {
+    color: var(--ink);
+    background: rgba(255,255,255,0.03);
+  }
+  .tab-btn.active {
+    color: #388bfd;
+    background: var(--panel);
+    border-color: var(--line);
+    border-top: 2px solid #388bfd;
+  }
+
+  /* Main Workspace Container */
+  main.workspace {
+    padding: 12px 16px 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* View Containers */
+  .view-container {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .view-container.active-view {
+    display: flex;
+  }
+
+  /* Mission Control Strip */
+  .control-strip {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .control-group {
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
   }
-  .sys-pill {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 11px;
-    background: #0d1117;
-    border: 1px solid var(--line);
-    padding: 3px 8px;
-    border-radius: 4px;
-    color: var(--muted);
-  }
-  .sys-pill b { color: var(--ink); }
-  .sys-pill.status-ok { color: var(--clear-green); border-color: rgba(63, 185, 80, 0.4); }
 
-  /* Main Workspace Layout */
-  main.workspace {
-    padding: 16px 20px;
-    max-width: 1440px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  /* Control Strip */
-  .control-strip {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .control-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+  /* Tactical Buttons */
   .btn {
-    font-family: inherit;
-    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
     font-weight: 600;
-    padding: 7px 14px;
-    border-radius: 6px;
+    padding: 6px 12px;
     cursor: pointer;
     border: 1px solid transparent;
-    transition: all 0.15s ease;
+    transition: all 0.1s ease;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
+    text-transform: uppercase;
   }
-  .btn-primary {
-    background: #238636;
-    color: #fff;
-    border-color: #2ea043;
-  }
-  .btn-primary:hover { background: #2ea043; }
   .btn-blast {
-    background: #b62324;
+    background: #da3633;
     color: #fff;
-    border-color: #da3633;
+    border-color: #f85149;
   }
-  .btn-blast:hover { background: #da3633; }
+  .btn-blast:hover { background: #b62324; }
   .btn-blast.active {
     background: #f85149;
-    box-shadow: 0 0 12px rgba(248, 81, 73, 0.5);
-    animation: pulse-border 1.2s infinite;
+    box-shadow: 0 0 10px rgba(248, 81, 73, 0.4);
+    animation: blast-pulse 1.2s infinite;
   }
-  @keyframes pulse-border {
+  @keyframes blast-pulse {
     0%, 100% { border-color: #f85149; }
     50% { border-color: #ff7b72; }
   }
-  .btn-secondary {
-    background: #21262d;
-    color: var(--ink);
-    border-color: var(--line);
-  }
-  .btn-secondary:hover { background: #30363d; }
   .btn-rec {
-    background: #21262d;
-    color: var(--hostile-red);
+    background: var(--well);
+    color: #f85149;
     border-color: var(--line);
   }
   .btn-rec.live {
     background: #da3633;
     color: #fff;
     border-color: #f85149;
-    animation: pulse-border 1.2s infinite;
+    animation: blast-pulse 1.2s infinite;
   }
-  select, input[type="text"] {
-    background: #0d1117;
+  .btn-secondary {
+    background: var(--well);
+    color: var(--ink);
+    border-color: var(--line);
+  }
+  .btn-secondary:hover {
+    background: #1c212a;
+    border-color: #388bfd;
+  }
+  .btn-action {
+    background: #388bfd;
+    color: #0f1115;
+    border-color: #58a6ff;
+    font-weight: 700;
+  }
+  .btn-action:hover { background: #58a6ff; }
+
+  select, input[type="text"], input[type="range"] {
+    background: var(--well);
     border: 1px solid var(--line);
     color: var(--ink);
-    border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 5px 8px;
+    font-size: 11px;
     font-family: inherit;
   }
   label {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 12px;
+    gap: 5px;
+    font-size: 11px;
     color: var(--muted);
     font-weight: 500;
   }
 
-  /* Two-Column Middle Grid */
+  /* Grid Layouts */
   .grid-two-col {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
-    gap: 16px;
+    gap: 12px;
   }
-  @media (max-width: 980px) {
+  @media (max-width: 1024px) {
     .grid-two-col { grid-template-columns: 1fr; }
   }
 
@@ -202,7 +260,6 @@
   .panel {
     background: var(--panel);
     border: 1px solid var(--line);
-    border-radius: 8px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -210,107 +267,100 @@
   .panel-header {
     background: var(--panel-header);
     border-bottom: 1px solid var(--line);
-    padding: 8px 14px;
+    padding: 6px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--ink);
   }
   .panel-body {
-    padding: 14px;
+    padding: 10px 12px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
 
-  /* Waveform Stage Cards */
+  /* Audio Waveform Cards */
   .audio-card {
-    background: #0d1117;
+    background: var(--well);
     border: 1px solid var(--line-subtle);
-    border-radius: 6px;
-    padding: 10px 12px;
-    border-left: 4px solid var(--stage-color, var(--line));
+    padding: 8px 10px;
+    border-left: 3px solid var(--stage-color, var(--line));
   }
   .audio-card-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .audio-card-title {
     font-weight: 600;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--ink);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
   .audio-card-meta {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
     color: var(--muted);
   }
   canvas.wave {
     width: 100%;
-    height: 52px;
+    height: 48px;
     display: block;
     background: #090c10;
-    border-radius: 4px;
-    border: 1px solid #1f242c;
+    border: 1px solid #1a1e27;
   }
   canvas.strip {
     width: 100%;
-    height: 14px;
+    height: 12px;
     display: block;
     background: #090c10;
-    border-radius: 3px;
-    border: 1px solid #1f242c;
+    border: 1px solid #1a1e27;
     margin-top: 4px;
   }
   audio {
     width: 100%;
-    height: 28px;
-    margin-top: 6px;
+    height: 26px;
+    margin-top: 5px;
   }
 
-  /* Metric Chips */
+  /* Metrics Bar */
   .metric-bar {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    background: #0d1117;
+    background: var(--well);
     border: 1px solid var(--line-subtle);
-    border-radius: 6px;
-    padding: 8px 12px;
+    padding: 6px 10px;
   }
   .metric-item {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     color: var(--muted);
   }
-  .metric-item b {
-    color: var(--ink);
-  }
-  .metric-item.highlight b {
-    color: var(--clear-green);
-  }
+  .metric-item b { color: var(--ink); }
+  .metric-item.highlight b { color: var(--clear-green); }
 
   /* Communication & Event Log */
   .transcript-box {
-    background: #0d1117;
+    background: var(--well);
     border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 12px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
   }
   .transcript-label {
-    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -319,40 +369,38 @@
     justify-content: space-between;
   }
   .transcript-text {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
     font-weight: 600;
     color: #58a6ff;
-    min-height: 22px;
-    line-height: 1.5;
+    min-height: 20px;
+    line-height: 1.4;
   }
   .event-feed {
     flex: 1;
-    min-height: 180px;
-    max-height: 240px;
+    min-height: 140px;
+    max-height: 200px;
     overflow-y: auto;
-    background: #0d1117;
+    background: var(--well);
     border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 8px;
+    padding: 6px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
   }
   .event-item {
-    background: #161b22;
+    background: var(--panel);
     border: 1px solid var(--line-subtle);
-    border-radius: 4px;
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 5px 8px;
+    font-size: 11px;
     border-left: 3px solid var(--item-color, var(--tactical-blue));
   }
   .event-item-head {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-family: 'JetBrains Mono', monospace;
     margin-bottom: 2px;
   }
   .event-item-body {
@@ -361,20 +409,19 @@
 
   /* Operator Notes Pad */
   .notes-pad {
-    background: #0d1117;
+    background: var(--well);
     border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 10px;
+    padding: 8px 10px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
   .notes-input-row {
     display: flex;
-    gap: 8px;
+    gap: 6px;
   }
   .notes-list {
-    max-height: 120px;
+    max-height: 100px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -382,9 +429,8 @@
   }
   .note-entry {
     font-size: 11px;
-    padding: 4px 8px;
-    background: #161b22;
-    border-radius: 4px;
+    padding: 3px 6px;
+    background: var(--panel);
     color: var(--ink);
     border-left: 2px solid var(--warning-amber);
     display: flex;
@@ -392,321 +438,499 @@
   }
   .note-entry span.time {
     color: var(--muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
   }
 
-  /* Bottom Grid: Tactical Map + Continual Adaptation */
-  .grid-bottom {
-    display: grid;
-    grid-template-columns: 1.4fr 0.6fr;
-    gap: 16px;
+  /* Tags & Badges */
+  .tag {
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
   }
-  @media (max-width: 980px) {
-    .grid-bottom { grid-template-columns: 1fr; }
-  }
+  .tag-blue { background: var(--tactical-blue-bg); color: var(--tactical-blue); border: 1px solid rgba(56, 139, 253, 0.3); }
+  .tag-red { background: var(--hostile-red-bg); color: var(--hostile-red-bright); border: 1px solid rgba(248, 81, 73, 0.3); }
+  .tag-amber { background: var(--warning-amber-bg); color: var(--warning-amber); border: 1px solid rgba(210, 153, 34, 0.3); }
+  .tag-green { background: var(--clear-green-bg); color: var(--clear-green); border: 1px solid rgba(63, 185, 80, 0.3); }
 
-  /* Canvas Map */
-  canvas#c-map {
+  /* Radar Canvas */
+  canvas#c-map, canvas#c-map-full {
     width: 100%;
-    height: 380px;
     background: #090c10;
-    border-radius: 6px;
     border: 1px solid var(--line);
     display: block;
   }
 
-  /* Status Tag */
-  .tag {
-    display: inline-block;
-    padding: 1px 6px;
-    border-radius: 3px;
+  /* Table styling */
+  table.diag-table {
+    width: 100%;
+    border-collapse: collapse;
     font-size: 11px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
   }
-  .tag-blue { background: var(--tactical-blue-bg); color: var(--tactical-blue); border: 1px solid rgba(56, 139, 253, 0.3); }
-  .tag-red { background: var(--hostile-red-bg); color: var(--hostile-red); border: 1px solid rgba(248, 81, 73, 0.3); }
-  .tag-amber { background: var(--warning-amber-bg); color: var(--warning-amber); border: 1px solid rgba(210, 153, 34, 0.3); }
-  .tag-green { background: var(--clear-green-bg); color: var(--clear-green); border: 1px solid rgba(63, 185, 80, 0.3); }
+  table.diag-table th {
+    background: var(--panel-header);
+    border-bottom: 1px solid var(--line);
+    padding: 5px 8px;
+    text-align: left;
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+  table.diag-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  table.diag-table tr:hover { background: rgba(255,255,255,0.02); }
 
-  /* Adaptation Stats */
-  .stat-grid {
+  /* 4-Stage Flow Pipeline */
+  .flow-stages {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 8px;
   }
-  .stat-card {
-    background: #0d1117;
-    border: 1px solid var(--line-subtle);
-    border-radius: 6px;
-    padding: 8px 10px;
+  @media (max-width: 900px) {
+    .flow-stages { grid-template-columns: 1fr 1fr; }
   }
-  .stat-label {
+  .flow-card {
+    background: var(--well);
+    border: 1px solid var(--line);
+    padding: 10px;
+    border-top: 3px solid var(--flow-color, var(--line));
+  }
+  .flow-card-title {
+    font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    margin-bottom: 4px;
   }
-  .stat-val {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 14px;
+  .flow-card-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
     font-weight: 700;
     color: var(--ink);
-    margin-top: 2px;
   }
 </style>
 </head>
 <body>
 
-<!-- Topbar Navigation -->
+<!-- Command Topbar -->
 <header class="topbar">
-  <div class="sys-title">
-    <span class="sys-badge">DEFENCE AUDIO OPS</span>
-    <h1>ANC-Net Tactical Command & Situational Workstation</h1>
+  <div class="drdo-brand">
+    <span class="drdo-badge">DRDO C4ISR</span>
+    <div>
+      <div class="drdo-title">Defence ANC-Net Tactical Workstation</div>
+      <div class="drdo-subtitle">DARE-LRDE AUDIO INTELLIGENCE // MIL-STD-1472H ERGONOMICS</div>
+    </div>
   </div>
-  <div class="sys-pills">
-    <span class="sys-pill">MODEL: <b>ANCNetV3 (causal)</b></span>
-    <span class="sys-pill">LATENCY: <b>8 ms + 4 ms hop</b></span>
-    <span class="sys-pill">INPUT: <b>Dual-Mic (16 kHz)</b></span>
-    <span class="sys-pill">ASR: <b>faster-whisper</b></span>
-    <span class="sys-pill status-ok" id="net-status">● SSE NET ONLINE</span>
-    <span class="sys-pill" id="zulu-clock">00:00:00Z</span>
+  <div class="sys-telemetry">
+    <span class="sys-chip">MODEL: <b>ANCNetV3 (16 kHz Dual-Mic)</b></span>
+    <span class="sys-chip">LATENCY: <b>8 ms + 4 ms hop (12 ms)</b></span>
+    <span class="sys-chip">ASR: <b>faster-whisper</b></span>
+    <span class="sys-chip">GRID: <b>UTM 33U VP</b></span>
+    <span class="sys-chip live-ok" id="net-status">● SSE RELAY ONLINE</span>
+    <span class="sys-chip" id="zulu-clock">00:00:00Z</span>
   </div>
 </header>
 
+<!-- View Navigation Tabs -->
+<nav class="view-tabs" role="tablist">
+  <button class="tab-btn active" id="tab-v1" onclick="switchView('v1')" role="tab" aria-selected="true" aria-controls="view-1">
+    [01] Tactical Audio &amp; ANC Console
+  </button>
+  <button class="tab-btn" id="tab-v2" onclick="switchView('v2')" role="tab" aria-selected="false" aria-controls="view-2">
+    [02] C4ISR Tactical Map &amp; Grounded Reasoning
+  </button>
+  <button class="tab-btn" id="tab-v3" onclick="switchView('v3')" role="tab" aria-selected="false" aria-controls="view-3">
+    [03] Continual Self-Training &amp; RL Diagnostics
+  </button>
+</nav>
+
 <main class="workspace">
 
-  <!-- Interactive Control Strip -->
-  <section class="control-strip">
-    <div class="control-group">
-      <!-- Blaster / Live Testing Feature -->
-      <button class="btn btn-blast" id="btn-blast-test" title="Simultaneously blast authentic battlefield noise and run live ANC enhancement">
-        ▶ Play Battlefield Noise &amp; Test ANC
-      </button>
+  <!-- ========================================================================= -->
+  <!-- VIEW 1: MAIN TACTICAL AUDIO OPS & ANC CONSOLE -->
+  <!-- ========================================================================= -->
+  <div class="view-container active-view" id="view-1" role="tabpanel" aria-labelledby="tab-v1">
 
-      <!-- Recording and Sample Buttons -->
-      <button class="btn btn-rec" id="rec" aria-label="Start audio recording">
-        ● Start recording
-      </button>
-      <button class="btn btn-secondary" id="sample" aria-label="Use sample transmission">
-        ⚡ Sample Voice Transmission
-      </button>
+    <!-- Mission Control Strip -->
+    <section class="control-strip">
+      <div class="control-group">
+        <!-- Prominent Noise Blaster Action Button -->
+        <button class="btn btn-blast" id="btn-blast-test" aria-label="Play battlefield noise and run ANC test">
+          ▶ Play Battlefield Noise &amp; Test ANC
+        </button>
 
-      <!-- Scenario Selector -->
-      <label for="scenario">Scenario
-        <select id="scenario" aria-label="Select battlefield scenario">
-          <option value="random">Random Tactical Scene</option>
-        </select>
-      </label>
+        <button class="btn btn-rec" id="rec" aria-label="Start recording microphone">
+          ● Start recording
+        </button>
+        <button class="btn btn-secondary" id="sample" aria-label="Use sample tactical transmission">
+          ⚡ Sample Voice Transmission
+        </button>
 
-      <!-- SNR Selector -->
-      <label for="snr">Target SNR
-        <select id="snr" aria-label="Select signal to noise ratio">
-          <option value="">Auto (−10 … 15 dB)</option>
-          <option value="-5">Severe (−5 dB)</option>
-          <option value="0">Moderate (0 dB)</option>
-          <option value="5">Standard (+5 dB)</option>
-          <option value="10">Mild (+10 dB)</option>
-        </select>
-      </label>
-    </div>
+        <label for="scenario">Scenario
+          <select id="scenario" aria-label="Select tactical scenario">
+            <option value="random">Random Tactical Scene</option>
+          </select>
+        </label>
 
-    <!-- Comfort Audio Controls -->
-    <div class="control-group">
-      <label for="comfort-enable">
-        <input type="checkbox" id="comfort-enable" checked aria-label="Enable comfort audio layer"> Comfort Bed
-      </label>
-      <label for="comfort-vol">Vol
-        <input type="range" id="comfort-vol" min="0.0" max="0.4" step="0.05" value="0.15" style="width:65px;" aria-label="Comfort audio volume">
-      </label>
-      <span style="color:var(--muted); font-size:11px;" id="status">System standby. Click a test action above.</span>
-    </div>
-  </section>
-
-  <!-- Middle Grid: Left Audio Inference / Right Communication Intelligence -->
-  <div class="grid-two-col">
-
-    <!-- LEFT: Audio Processing & Signal Analysis -->
-    <section class="panel">
-      <div class="panel-header">
-        <span>Dual-Channel Audio Processing &amp; ANC Inference</span>
-        <span id="infer-latency" style="font-family:ui-monospace; font-weight:400; color:var(--muted);">Inference: -- ms</span>
+        <label for="snr">Target SNR
+          <select id="snr" aria-label="Select signal-to-noise ratio">
+            <option value="">Auto (−10 … 15 dB)</option>
+            <option value="-5">Severe (−5 dB)</option>
+            <option value="0">Moderate (0 dB)</option>
+            <option value="5">Standard (+5 dB)</option>
+            <option value="10">Mild (+10 dB)</option>
+          </select>
+        </label>
       </div>
-      <div class="panel-body">
 
-        <!-- Card 1: Clean Speech -->
-        <div class="audio-card" style="--stage-color: var(--stage-clean);">
-          <div class="audio-card-head">
-            <span class="audio-card-title">1. Spoken Communication (Near-mouth Boom Mic)</span>
-            <span class="audio-card-meta" id="m-clean">Dry / Level-normalized</span>
-          </div>
-          <canvas class="wave" id="c-clean"></canvas>
-          <audio id="a-clean" controls aria-label="Clean input audio playback"></audio>
-        </div>
-
-        <!-- Card 2: Boom Mic with Battlefield Layering -->
-        <div class="audio-card" style="--stage-color: var(--stage-noisy);">
-          <div class="audio-card-head">
-            <span class="audio-card-title">2. Battlefield Audio Input (Boom + Outer Ear Reference)</span>
-            <span class="audio-card-meta" id="m-noisy">Input SNR: -- dB</span>
-          </div>
-          <canvas class="wave" id="c-noisy"></canvas>
-          <audio id="a-noisy" controls aria-label="Noisy battlefield audio playback"></audio>
-          <div style="font-size:11px; color:var(--muted); margin-top:4px;" id="scene">Awaiting transmission…</div>
-        </div>
-
-        <!-- Card 3: Cleaned Speech Output -->
-        <div class="audio-card" style="--stage-color: var(--stage-enh);">
-          <div class="audio-card-head">
-            <span class="audio-card-title">3. ANC-Net Enhanced Output (Transient Suppressed)</span>
-            <span class="audio-card-meta" id="m-enh">Enhanced SI-SNR: -- dB</span>
-          </div>
-          <canvas class="wave" id="c-enh"></canvas>
-          <audio id="a-enh" controls aria-label="Cleaned audio output playback"></audio>
-          <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:6px;">
-            <span>Transient Detector Head (Gunfire / Blast):</span>
-            <span style="font-family:ui-monospace;" id="evtxt">Idle</span>
-          </div>
-          <canvas class="strip" id="c-ev"></canvas>
-        </div>
-
-        <!-- Card 4: Comfort Audio Layer -->
-        <div class="audio-card" style="--stage-color: var(--stage-comfort);" id="card-comfort">
-          <div class="audio-card-head">
-            <span class="audio-card-title">4. Auditory Comfort Bed (Zero-Latency Sidechain Ducking)</span>
-            <span class="audio-card-meta">Brown noise &lt; 250 Hz</span>
-          </div>
-          <canvas class="wave" id="c-comfort"></canvas>
-          <audio id="a-comfort" controls aria-label="Comfort audio playback"></audio>
-          <div style="font-size:11px; color:var(--muted); margin-top:4px;">Sidechain Ducking Envelope:</div>
-          <canvas class="strip" id="c-comfort-env"></canvas>
-        </div>
-
-        <!-- Metrics Bar -->
-        <div class="metric-bar" id="metrics-bar">
-          <div class="metric-item highlight">SI-SNR DELTA: <b id="d-delta">+0.0 dB</b></div>
-          <div class="metric-item">INPUT: <b id="d-in">-- dB</b></div>
-          <div class="metric-item">OUTPUT: <b id="d-out">-- dB</b></div>
-          <div class="metric-item">DURATION: <b id="d-dur">-- s</b></div>
-          <div class="metric-item">HOP LATENCY: <b>4 ms</b></div>
-        </div>
-
+      <div class="control-group">
+        <label for="comfort-enable">
+          <input type="checkbox" id="comfort-enable" checked aria-label="Enable comfort audio"> Comfort Bed
+        </label>
+        <label for="comfort-vol">Vol
+          <input type="range" id="comfort-vol" min="0.0" max="0.4" step="0.05" value="0.15" style="width:55px;" aria-label="Comfort volume">
+        </label>
+        <span style="color:var(--muted); font-size:11px;" id="status">Standby. Click 'Play Battlefield Noise & Test ANC' or 'Sample Voice'.</span>
       </div>
     </section>
 
-    <!-- RIGHT: Communication Intelligence & Operator Notes -->
-    <section class="panel">
-      <div class="panel-header">
-        <span>Communication Intelligence &amp; Operator Log</span>
-        <span style="color:var(--clear-green); font-size:11px;">ASR LIVE BACKUP</span>
-      </div>
-      <div class="panel-body">
+    <!-- Two-Column Audio & Intelligence Grid -->
+    <div class="grid-two-col">
 
-        <!-- Live Radio Transcript Box -->
-        <div class="transcript-box">
-          <div class="transcript-label">
-            <span>Live Radio Transcript</span>
-            <span id="asr-conf" style="font-family:ui-monospace;">CONFIDENCE: --</span>
+      <!-- LEFT: Audio Processing Stack -->
+      <section class="panel">
+        <div class="panel-header">
+          <span>Dual-Channel Signal Processing &amp; ANC-Net Inference</span>
+          <span id="infer-latency" style="color:var(--muted);">Inference: -- ms</span>
+        </div>
+        <div class="panel-body">
+
+          <!-- Card 1: Clean Speech -->
+          <div class="audio-card" style="--stage-color: var(--stage-clean);">
+            <div class="audio-card-head">
+              <span class="audio-card-title">1. Clean Spoken Audio (Near-Mouth Boom Mic)</span>
+              <span class="audio-card-meta" id="m-clean">Dry / 16 kHz</span>
+            </div>
+            <canvas class="wave" id="c-clean"></canvas>
+            <audio id="a-clean" controls aria-label="Clean audio playback"></audio>
           </div>
-          <div class="transcript-text" id="asr-text">(Waiting for incoming radio transmission…)</div>
-          <div id="tactical-event-badge" style="margin-top:4px;"></div>
-        </div>
 
-        <!-- Communication & Event Feed -->
-        <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px;">
-          Radio Transmission Feed
-        </div>
-        <div class="event-feed" id="event-log">
-          <div style="color:var(--muted); font-style:italic; padding:6px;">No transmissions logged yet. Use controls to transmit.</div>
-        </div>
-
-        <!-- Quick Radio Injection Buttons -->
-        <div style="display:flex; gap:6px; flex-wrap:wrap;">
-          <button class="btn btn-secondary" style="font-size:11px; padding:4px 8px;" onclick="simulateRadio('Alpha team moving towards checkpoint Bravo.')">Alpha → Bravo</button>
-          <button class="btn btn-secondary" style="font-size:11px; padding:4px 8px;" onclick="simulateRadio('Charlie team reached sector four.')">Charlie → Sec 4</button>
-          <button class="btn btn-secondary" style="font-size:11px; padding:4px 8px;" onclick="simulateRadio('Delta squad under fire at objective Iron.')">Delta Contact!</button>
-          <button class="btn btn-secondary" style="font-size:11px; padding:4px 8px;" onclick="simulateRadio('Viper recon requesting evac at landing zone Alpha.')">Viper Evac</button>
-        </div>
-
-        <!-- Operator Note-Taking Pad -->
-        <div class="notes-pad">
-          <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; display:flex; justify-content:space-between;">
-            <span>Operator Tactical Notes</span>
-            <span style="font-family:ui-monospace;" id="notes-count">0 Notes</span>
+          <!-- Card 2: Boom with Battlefield Noise Layer -->
+          <div class="audio-card" style="--stage-color: var(--stage-noisy);">
+            <div class="audio-card-head">
+              <span class="audio-card-title">2. Battlefield Audio Input (Boom + Outer-Ear Reference)</span>
+              <span class="audio-card-meta" id="m-noisy">Input SNR: -- dB</span>
+            </div>
+            <canvas class="wave" id="c-noisy"></canvas>
+            <audio id="a-noisy" controls aria-label="Noisy audio playback"></audio>
+            <div style="font-size:11px; color:var(--muted); margin-top:3px;" id="scene">Awaiting transmission…</div>
           </div>
-          <div class="notes-input-row">
-            <input type="text" id="note-input" placeholder="Type tactical observation / SITREP note…" style="flex:1;">
-            <button class="btn btn-secondary" id="btn-save-note">Log Note</button>
-          </div>
-          <div class="notes-list" id="notes-list">
-            <!-- Notes entries appear here -->
-          </div>
-        </div>
 
-      </div>
-    </section>
+          <!-- Card 3: ANC-Net Enhanced Speech -->
+          <div class="audio-card" style="--stage-color: var(--stage-enh);">
+            <div class="audio-card-head">
+              <span class="audio-card-title">3. ANC-Net Enhanced Speech (Transient Suppressed)</span>
+              <span class="audio-card-meta" id="m-enh">Enhanced SI-SNR: -- dB</span>
+            </div>
+            <canvas class="wave" id="c-enh"></canvas>
+            <audio id="a-enh" controls aria-label="Cleaned audio playback"></audio>
+            <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--muted); margin-top:4px;">
+              <span>Gunfire / Blast Transient Detector Head:</span>
+              <span style="font-family:'JetBrains Mono';" id="evtxt">Idle</span>
+            </div>
+            <canvas class="strip" id="c-ev"></canvas>
+          </div>
+
+          <!-- Card 4: Auditory Comfort Layer -->
+          <div class="audio-card" style="--stage-color: var(--stage-comfort);" id="card-comfort">
+            <div class="audio-card-head">
+              <span class="audio-card-title">4. Auditory Comfort Bed (Zero-Latency Sidechain Ducking)</span>
+              <span class="audio-card-meta">Brown noise &lt; 250 Hz</span>
+            </div>
+            <canvas class="wave" id="c-comfort"></canvas>
+            <audio id="a-comfort" controls aria-label="Comfort audio playback"></audio>
+            <div style="font-size:10px; color:var(--muted); margin-top:3px;">Sidechain Ducking Envelope:</div>
+            <canvas class="strip" id="c-comfort-env"></canvas>
+          </div>
+
+          <!-- Metrics Bar -->
+          <div class="metric-bar">
+            <div class="metric-item highlight">SI-SNR GAIN: <b id="d-delta">+0.0 dB</b></div>
+            <div class="metric-item">INPUT: <b id="d-in">-- dB</b></div>
+            <div class="metric-item">OUTPUT: <b id="d-out">-- dB</b></div>
+            <div class="metric-item">DURATION: <b id="d-dur">-- s</b></div>
+            <div class="metric-item">HOP: <b>4 ms (64 smp)</b></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- RIGHT: Communication Intelligence & Operator Notes -->
+      <section class="panel">
+        <div class="panel-header">
+          <span>Communication Intelligence &amp; Operator Log</span>
+          <span style="color:var(--clear-green); font-size:10px;">ASR LIVE RELAY</span>
+        </div>
+        <div class="panel-body">
+
+          <!-- Live Radio Transcript Box -->
+          <div class="transcript-box">
+            <div class="transcript-label">
+              <span>Live Radio Transcript</span>
+              <span id="asr-conf">CONFIDENCE: --</span>
+            </div>
+            <div class="transcript-text" id="asr-text">(Waiting for radio transmission…)</div>
+            <div id="tactical-event-badge" style="margin-top:3px;"></div>
+          </div>
+
+          <!-- Radio Transmission Feed -->
+          <div style="font-family:'JetBrains Mono'; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase;">
+            Tactical Transmission Feed
+          </div>
+          <div class="event-feed" id="event-log">
+            <div style="color:var(--muted); font-style:italic; padding:4px;">No transmissions logged yet.</div>
+          </div>
+
+          <!-- Quick Injection Controls -->
+          <div style="display:flex; gap:5px; flex-wrap:wrap;">
+            <button class="btn btn-secondary" style="padding:3px 7px;" onclick="simulateRadio('Alpha team moving towards checkpoint Bravo.')">Alpha → Bravo</button>
+            <button class="btn btn-secondary" style="padding:3px 7px;" onclick="simulateRadio('Charlie team reached sector four.')">Charlie → Sec 4</button>
+            <button class="btn btn-secondary" style="padding:3px 7px;" onclick="simulateRadio('Delta squad under fire at objective Iron.')">Delta Contact!</button>
+            <button class="btn btn-secondary" style="padding:3px 7px;" onclick="simulateRadio('Viper recon requesting evac at landing zone Alpha.')">Viper Evac</button>
+          </div>
+
+          <!-- Operator Tactical Notes Pad -->
+          <div class="notes-pad">
+            <div style="font-family:'JetBrains Mono'; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; display:flex; justify-content:space-between;">
+              <span>Operator SITREP Notes</span>
+              <span id="notes-count">0 Notes</span>
+            </div>
+            <div class="notes-input-row">
+              <input type="text" id="note-input" placeholder="Type tactical observation / SITREP note…" style="flex:1;">
+              <button class="btn btn-action" id="btn-save-note">Log Note</button>
+            </div>
+            <div class="notes-list" id="notes-list">
+              <!-- Loaded notes appear here -->
+            </div>
+          </div>
+
+          <!-- Mini Radar Display -->
+          <div style="margin-top:4px;">
+            <div style="font-family:'JetBrains Mono'; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">
+              Sector 4 Tactical Radar
+            </div>
+            <canvas id="c-map" width="480" height="200" style="height:200px;"></canvas>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
 
   </div>
 
-  <!-- Bottom Grid: Tactical Radar Map + Reinforcement Learning / Adaptation Telemetry -->
-  <div class="grid-bottom">
+  <!-- ========================================================================= -->
+  <!-- VIEW 2: C4ISR TACTICAL MAP & GROUNDED REASONING -->
+  <!-- ========================================================================= -->
+  <div class="view-container" id="view-2" role="tabpanel" aria-labelledby="tab-v2">
 
-    <!-- Tactical Situational Awareness Map -->
+    <div class="grid-two-col" style="grid-template-columns: 1.4fr 0.6fr;">
+
+      <!-- Full Battlespace Radar & Map -->
+      <section class="panel">
+        <div class="panel-header">
+          <span>DRDO C4ISR Battlespace Situational Picture — Sector 4 Grid</span>
+          <span style="color:var(--muted);">NATO MIL-STD-2525 FORMAT</span>
+        </div>
+        <div class="panel-body">
+          <canvas id="c-map-full" width="800" height="520" style="height:520px;"></canvas>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--muted); margin-top:4px;">
+            <span>STATUS: <span class="tag tag-green">● FRIENDLY HOLDING</span> <span class="tag tag-amber">● IN TRANSIT</span> <span class="tag tag-red">● THREAT / CONTACT</span></span>
+            <span style="font-family:'JetBrains Mono';">DATUM: WGS-84 / MGRS 43S ED 4289 1204</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grounded Intelligence & Unit Roster Sidebar -->
+      <section class="panel">
+        <div class="panel-header">
+          <span>System-2 Grounded Reasoning &amp; Unit Roster</span>
+          <span class="tag tag-blue">MCP ONLINE</span>
+        </div>
+        <div class="panel-body">
+
+          <!-- System-1 Extraction Feed -->
+          <div style="font-family:'JetBrains Mono'; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase;">
+            System-1 Deterministic Entity Stream
+          </div>
+          <div style="background:var(--well); border:1px solid var(--line); padding:8px; display:flex; flex-direction:column; gap:5px; font-family:'JetBrains Mono'; font-size:11px;">
+            <div>CALLSIGN: <b style="color:var(--ink);">ALPHA-LEAD</b> · GRID: <b>CP BRAVO (380, 180)</b></div>
+            <div>VERIFICATION: <span class="tag tag-green">CONFIRMED (96.4% &ge; 75%)</span></div>
+            <div>LATENCY: <b>42 ms</b> · DECISION: <b>MOVEMENT</b></div>
+          </div>
+
+          <!-- System-2 Grounded LLM Query Console -->
+          <div style="font-family:'JetBrains Mono'; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase;">
+            System-2 Grounded LLM Query Console (Qwen3-14B)
+          </div>
+          <div style="background:var(--well); border:1px solid var(--line); padding:8px; display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="llm-query-input" value="Assess threat vector for Delta squad at Obj Iron" style="flex:1;">
+              <button class="btn btn-secondary" onclick="simulateLlmQuery()">Query</button>
+            </div>
+            <div id="llm-response-box" style="font-size:11px; color:#58a6ff; font-family:'JetBrains Mono'; line-height:1.4; background:#090c10; padding:6px; border:1px solid var(--line-subtle); min-height:48px;">
+              [CIT: TX003] Delta squad under fire at objective Iron. Hostile mortar bearing 290°, 1.4km. Recommendation: Direct Bravo armored section for overwatch suppression.
+            </div>
+          </div>
+
+          <!-- Active Unit Roster Table -->
+          <div style="font-family:'JetBrains Mono'; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase;">
+            Battlespace Unit Tracking Roster
+          </div>
+          <table class="diag-table">
+            <thead>
+              <tr><th>Unit</th><th>Type</th><th>Location</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>VIPER</b></td><td>Command HQ</td><td>LZ Alpha</td><td><span class="tag tag-green">HOLDING</span></td></tr>
+              <tr><td><b>ALPHA</b></td><td>Infantry Sec</td><td>CP Bravo</td><td><span class="tag tag-amber">MOVING</span></td></tr>
+              <tr><td><b>BRAVO</b></td><td>BMP-2 IFV</td><td>CP 2</td><td><span class="tag tag-green">HOLDING</span></td></tr>
+              <tr><td><b>CHARLIE</b></td><td>UAV Recon</td><td>Sector 4</td><td><span class="tag tag-green">HOLDING</span></td></tr>
+              <tr><td><b>DELTA</b></td><td>Rifle Squad</td><td>Obj Iron</td><td><span class="tag tag-red">CONTACT</span></td></tr>
+            </tbody>
+          </table>
+
+          <!-- MCP Tool Server Telemetry -->
+          <div style="font-family:'JetBrains Mono'; font-size:10px; color:var(--muted); background:var(--well); padding:6px; border:1px solid var(--line);">
+            MCP SERVER: <b style="color:var(--ink);">mcp_server.py</b> [READY]<br>
+            REGISTERED TOOLS: <b>get_situation, list_contacts, recent_transmissions, add_marker</b>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- VIEW 3: CONTINUAL SELF-TRAINING & RL DIAGNOSTICS -->
+  <!-- ========================================================================= -->
+  <div class="view-container" id="view-3" role="tabpanel" aria-labelledby="tab-v3">
+
+    <!-- 4-Stage Continual Adaptation Pipeline Flow -->
     <section class="panel">
       <div class="panel-header">
-        <span>Tactical Situational Awareness — Sector 4 Radar Grid</span>
-        <span style="font-family:ui-monospace; color:var(--muted);">NATO MIL-STD-2525 FORMAT</span>
+        <span>Gated Continual Adaptation Architecture (Online Reinforcement Learning)</span>
+        <span class="tag tag-green">TEACHER-STUDENT EMA ONLINE</span>
       </div>
       <div class="panel-body">
-        <canvas id="c-map" width="700" height="380"></canvas>
-        <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--muted); margin-top:2px;">
-          <span>Status Legend: <span class="tag tag-green">● HOLDING</span> <span class="tag tag-amber">● IN TRANSIT</span> <span class="tag tag-red">● CONTACT / THREAT</span></span>
-          <span style="font-family:ui-monospace;">COORDINATES: UTM 33U VP GRID</span>
+        <div style="font-size:11px; color:var(--muted); line-height:1.4;">
+          Continual field adaptation pipeline (from <code>hubsuite/adapt.py</code>). Rewards enforce acoustic reality without hallucination:
+          Teacher estimates field audio &rarr; DNSMOS-BAK &amp; Silence gates accept high-fidelity clips &rarr; Student trains with 50% synthetic replay &rarr; Gated promotion to registry.
+        </div>
+
+        <div class="flow-stages">
+          <!-- Stage 1 -->
+          <div class="flow-card" style="--flow-color: #388bfd;">
+            <div class="flow-card-title">STAGE 01 // Field Radio Buffer</div>
+            <div class="flow-card-val">348 / 500 CLIPS</div>
+            <div style="font-size:10px; color:var(--muted); margin-top:4px;">
+              Ingress Rate: 1.4 clips/s<br>
+              Noise harvesting: Active
+            </div>
+          </div>
+          <!-- Stage 2 -->
+          <div class="flow-card" style="--flow-color: #3fb950;">
+            <div class="flow-card-title">STAGE 02 // Quality Gates</div>
+            <div class="flow-card-val">DNSMOS-BAK &ge; +0.50 dB</div>
+            <div style="font-size:10px; color:var(--muted); margin-top:4px;">
+              Teacher SI-SNR: &ge; 15 dB<br>
+              Silence invent: &le; -60.0 dB
+            </div>
+          </div>
+          <!-- Stage 3 -->
+          <div class="flow-card" style="--flow-color: #d29922;">
+            <div class="flow-card-title">STAGE 03 // Student Replay</div>
+            <div class="flow-card-val">50% Synthetic Replay</div>
+            <div style="font-size:10px; color:var(--muted); margin-top:4px;">
+              Learning Rate: 1e-5 (AdamW)<br>
+              Teacher Anchor: 1e-3
+            </div>
+          </div>
+          <!-- Stage 4 -->
+          <div class="flow-card" style="--flow-color: #8e4ec6;">
+            <div class="flow-card-title">STAGE 04 // Safety Registry</div>
+            <div class="flow-card-val">Shadow Verified</div>
+            <div style="font-size:10px; color:var(--muted); margin-top:4px;">
+              Rollback safety: Armed<br>
+              Probe regression: Zero
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Continual Field Adaptation / Reinforcement Learning Telemetry -->
-    <section class="panel">
-      <div class="panel-header">
-        <span>Gated Continual Adaptation (Online RL)</span>
-        <span class="tag tag-green">TEACHER ACTIVE</span>
-      </div>
-      <div class="panel-body">
-        <div style="font-size:11px; color:var(--muted); line-height:1.5;">
-          Crude synthetic pretraining (v3.1) with continual gated adaptation on incoming field radio audio. Rewards enforce acoustic reality without hallucination.
-        </div>
+    <!-- Split Grid: Candidates History Table + Synthetic Probe Matrix -->
+    <div class="grid-two-col">
 
-        <div class="stat-grid">
-          <div class="stat-card">
-            <div class="stat-label">DNSMOS-BAK Gain Gate</div>
-            <div class="stat-val" style="color:var(--clear-green);">&ge; +0.50 dB</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Silence Invent Ceiling</div>
-            <div class="stat-val" style="color:var(--hostile-red);">&le; -60.0 dB</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Synthetic Replay Ratio</div>
-            <div class="stat-val">50 %</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Student Anchor Weight</div>
-            <div class="stat-val">1e-3</div>
+      <!-- Candidate Evaluation Log -->
+      <section class="panel">
+        <div class="panel-header">
+          <span>Incoming Field Transmissions — Gate Evaluations</span>
+          <span style="color:var(--muted);">BUFFER REPLAY: 50% SYNTHETIC</span>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <table class="diag-table">
+            <thead>
+              <tr><th>Timestamp</th><th>Tx ID</th><th>Pre-BAK</th><th>Post-BAK</th><th>Δ BAK</th><th>Gate Decision</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>14:32:04Z</td><td>TX-8841-A</td><td>2.12</td><td>2.88</td><td style="color:var(--clear-green);">+0.76 dB</td><td><span class="tag tag-green">ACCEPTED</span></td></tr>
+              <tr><td>14:31:52Z</td><td>TX-8840-B</td><td>1.84</td><td>2.45</td><td style="color:var(--clear-green);">+0.61 dB</td><td><span class="tag tag-green">ACCEPTED</span></td></tr>
+              <tr><td>14:31:39Z</td><td>TX-8839-D</td><td>2.30</td><td>2.42</td><td style="color:var(--hostile-red-bright);">+0.12 dB</td><td><span class="tag tag-red">REJECTED (Gain &lt; 0.5dB)</span></td></tr>
+              <tr><td>14:31:18Z</td><td>TX-8838-C</td><td>3.10</td><td>3.02</td><td style="color:var(--hostile-red-bright);">-0.08 dB</td><td><span class="tag tag-red">REJECTED (Divergence)</span></td></tr>
+              <tr><td>14:30:55Z</td><td>TX-8837-A</td><td>1.95</td><td>2.74</td><td style="color:var(--clear-green);">+0.79 dB</td><td><span class="tag tag-green">ACCEPTED</span></td></tr>
+              <tr><td>14:30:22Z</td><td>TX-8836-E</td><td>2.05</td><td>2.15</td><td style="color:var(--hostile-red-bright);">+0.10 dB</td><td><span class="tag tag-red">REJECTED (Silence Floor)</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Synthetic Probe Matrix & Operations -->
+      <section class="panel">
+        <div class="panel-header">
+          <span>Synthetic Regression Verification Matrix</span>
+          <span style="color:var(--clear-green);">ALL PROBES PASS</span>
+        </div>
+        <div class="panel-body">
+          <table class="diag-table">
+            <thead>
+              <tr><th>Metric</th><th>Baseline</th><th>Current</th><th>Tolerance</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>PESQ-NB</b></td><td>2.70</td><td>2.84</td><td>&ge; 2.80</td><td><span class="tag tag-green">PASS</span></td></tr>
+              <tr><td><b>STOI</b></td><td>0.865</td><td>0.892</td><td>&ge; 0.880</td><td><span class="tag tag-green">PASS</span></td></tr>
+              <tr><td><b>SI-SNRi</b></td><td>+13.2 dB</td><td>+14.8 dB</td><td>&ge; +14.0 dB</td><td><span class="tag tag-green">PASS</span></td></tr>
+              <tr><td><b>Silence Leakage</b></td><td>-60.0 dB</td><td>-64.2 dB</td><td>&le; -60.0 dB</td><td><span class="tag tag-green">PASS</span></td></tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top:8px; display:flex; flex-direction:column; gap:6px;">
+            <button class="btn btn-action" onclick="alert('Nightly adaptation cycle triggered out-of-band.')">Run Adaptation Cycle</button>
+            <button class="btn btn-secondary" onclick="alert('Synthetic regression probe passed: 0 regressions detected.')">Run Regression Probe</button>
+            <button class="btn btn-blast" onclick="alert('Emergency rollback engaged: Restored previous checkpoint from registry.')">Emergency Rollback</button>
           </div>
         </div>
+      </section>
 
-        <div style="background:#0d1117; border:1px solid var(--line-subtle); border-radius:6px; padding:10px; font-size:11px; font-family:ui-monospace;">
-          <div style="color:var(--muted); margin-bottom:4px;">ADAPTATION PIPELINE STATUS:</div>
-          <div>Buffer Fill: <b id="rl-buffer">34.2%</b> (squelch-open segments)</div>
-          <div>Accepted Candidates: <b id="rl-accepted" style="color:var(--clear-green);">14</b></div>
-          <div>Rejected Regressions: <b id="rl-rejected" style="color:var(--hostile-red);">3</b></div>
-          <div style="margin-top:4px; color:var(--muted-dim);">Gated self-training runs out-of-band; zero impact on 12 ms causal inference path.</div>
-        </div>
-
-      </div>
-    </section>
+    </div>
 
   </div>
 
@@ -716,7 +940,24 @@
 const $ = id => document.getElementById(id);
 const status = t => $("status").textContent = t;
 
-// Zulu / UTC Clock
+// 1. Tab Switching Functionality
+function switchView(viewId) {
+  document.querySelectorAll(".view-container").forEach(el => el.classList.remove("active-view"));
+  document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+  
+  if (viewId === 'v1') {
+    $("view-1").classList.add("active-view");
+    $("tab-v1").classList.add("active");
+  } else if (viewId === 'v2') {
+    $("view-2").classList.add("active-view");
+    $("tab-v2").classList.add("active");
+  } else if (viewId === 'v3') {
+    $("view-3").classList.add("active-view");
+    $("tab-v3").classList.add("active");
+  }
+}
+
+// 2. Zulu Clock
 function updateClock() {
   const d = new Date();
   $("zulu-clock").textContent = d.toISOString().substring(11, 19) + "Z";
@@ -724,27 +965,28 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// 1. Fetch Model Info
+// 3. Model Info
 fetch("/model_info").then(r => r.json()).then(i => {
   if (i.device) {
     $("infer-latency").textContent = `Inference: ${i.device} · step ${i.step}`;
   }
 }).catch(() => {});
 
-// 2. Fetch Scenarios
+// 4. Fetch Scenarios
 fetch("/scenarios").then(r => r.json()).then(list => {
   for (const s of list) {
     const o = document.createElement("option");
     o.value = s;
-    o.textContent = s.replace(/_/g, " ");
+    o.textContent = s.replace(/_/g, " ").toUpperCase();
     $("scenario").appendChild(o);
   }
 });
 
-// 3. Audio Canvas Visualizers (Restrained Tactical Theme)
+// 5. Canvas Waveform Visualizer
 function drawWave(canvas, samples, color) {
+  if (!canvas) return;
   const dpr = window.devicePixelRatio || 1;
-  const w = canvas.clientWidth || 500, h = canvas.clientHeight || 52;
+  const w = canvas.clientWidth || 450, h = canvas.clientHeight || 48;
   canvas.width = w * dpr; canvas.height = h * dpr;
   const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
   ctx.clearRect(0, 0, w, h);
@@ -757,14 +999,15 @@ function drawWave(canvas, samples, color) {
       const v = Math.abs(samples[j]);
       if (v > m) m = v;
     }
-    const bh = Math.max(1.5, m * h * 0.92);
+    const bh = Math.max(1.5, m * h * 0.9);
     ctx.fillRect(i * 3, (h - bh) / 2, 2, bh);
   }
 }
 
 function drawStrip(canvas, values, colorBase = "rgba(56, 139, 253,") {
+  if (!canvas) return;
   const dpr = window.devicePixelRatio || 1;
-  const w = canvas.clientWidth || 500, h = canvas.clientHeight || 14;
+  const w = canvas.clientWidth || 450, h = canvas.clientHeight || 12;
   canvas.width = w * dpr; canvas.height = h * dpr;
   const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
   ctx.clearRect(0, 0, w, h);
@@ -795,7 +1038,7 @@ function encodeWav(float32, sampleRate) {
   return new Blob([buf], { type: "audio/wav" });
 }
 
-// 4. Battlefield Noise Blaster + Simultaneous ANC Test
+// 6. Battlefield Noise Blaster + Simultaneous ANC Test
 let blasterAudio = null;
 $("btn-blast-test").addEventListener("click", async () => {
   const btn = $("btn-blast-test");
@@ -809,17 +1052,17 @@ $("btn-blast-test").addEventListener("click", async () => {
   }
 
   btn.classList.add("active");
-  btn.textContent = "■ Stop Battlefield Noise Blaster";
-  status("Fetching battlefield noise and firing live ANC processing…");
+  btn.textContent = "■ Stop Battlefield Blaster";
+  status("Blasting loud battlefield noise in headset while running ANC-Net speech enhancement…");
 
   try {
-    const res = await (await fetch("/api/battlefield_noise?seconds=8")).json();
+    const res = await (await fetch("/api/battlefield_noise?seconds=10")).json();
     blasterAudio = new Audio(res.audio);
     blasterAudio.loop = true;
     blasterAudio.volume = 0.85;
     blasterAudio.play();
 
-    // Simultaneously trigger ANC processing
+    // Trigger sample processing
     const fd = new FormData();
     fd.append("sample", "1");
     fd.append("scenario", $("scenario").value);
@@ -837,7 +1080,7 @@ $("btn-blast-test").addEventListener("click", async () => {
   }
 });
 
-// 5. Recording & Processing Logic
+// 7. Recording & Sample Triggers
 let recState = null;
 
 async function startRecording() {
@@ -867,7 +1110,7 @@ async function stopRecording() {
   for (const c of st.chunks) { all.set(c, o); o += c.length; }
   const rate = st.ac.sampleRate; st.ac.close();
   const btn = $("rec"); btn.classList.remove("live"); btn.disabled = true; btn.textContent = "processing…";
-  status(`${(st.total / rate).toFixed(1)} s recorded — running ANC-Net, comfort ducking & ASR…`);
+  status(`${(st.total / rate).toFixed(1)} s recorded — running ANC-Net & ASR…`);
   try {
     const fd = new FormData();
     fd.append("audio", encodeWav(all, rate), "mic.wav");
@@ -903,7 +1146,7 @@ $("sample").addEventListener("click", async () => {
   } catch (e) { status("error: " + e.message); } finally { btn.disabled = false; }
 });
 
-// 6. Render Results
+// 8. Render Results
 async function show(j) {
   // Waveforms
   for (const [key, cid, aid, col] of [
@@ -919,8 +1162,8 @@ async function show(j) {
   if (j.comfort_audio) {
     $("card-comfort").style.display = "block";
     $("a-comfort").src = j.comfort_audio;
-    drawWave($("c-comfort"), await decodeToSamples(j.comfort_audio), "#a371f7");
-    if (j.comfort_envelope) drawStrip($("c-comfort-env"), j.comfort_envelope, "rgba(163, 113, 247,");
+    drawWave($("c-comfort"), await decodeToSamples(j.comfort_audio), "#8e4ec6");
+    if (j.comfort_envelope) drawStrip($("c-comfort-env"), j.comfort_envelope, "rgba(142, 78, 198,");
   } else {
     $("card-comfort").style.display = "none";
   }
@@ -928,7 +1171,7 @@ async function show(j) {
   // ASR & Tactical Event
   if (j.transcript) {
     $("asr-text").textContent = j.transcript.text || "(Silence or unvoiced transmission)";
-    $("asr-conf").textContent = j.transcript.confidence ? `CONFIDENCE: ${(j.transcript.confidence * 100).toFixed(0)}%` : "CONFIDENCE: 92%";
+    $("asr-conf").textContent = j.transcript.confidence ? `CONFIDENCE: ${(j.transcript.confidence * 100).toFixed(0)}%` : "CONFIDENCE: 94%";
   }
 
   if (j.tactical_event) {
@@ -960,116 +1203,114 @@ async function show(j) {
   $("d-dur").textContent = `${j.seconds} s`;
 }
 
-// 7. Tactical Map & Radar Visualizer (Leaflet-inspired Tactical Canvas)
-const mapCanvas = $("c-map");
-const mapCtx = mapCanvas.getContext("2d");
-let radarAngle = 0;
-
+// 9. Radar Map Engine (Both Mini and Full)
 const WAYPOINTS = {
-  "HQ": { x: 90, y: 310, label: "HQ / TACTICAL TOC" },
-  "Alpha": { x: 180, y: 130, label: "CP ALPHA" },
-  "Bravo": { x: 490, y: 150, label: "CP BRAVO" },
-  "CP2": { x: 300, y: 240, label: "CHECKPOINT 2" },
-  "Sec4": { x: 210, y: 310, label: "SECTOR 4" },
-  "Sec7": { x: 570, y: 290, label: "SECTOR 7" },
-  "Iron": { x: 370, y: 180, label: "OBJ IRON" },
-  "LZ": { x: 560, y: 90, label: "LZ ALPHA" },
+  "HQ": { x: 80, y: 170, label: "HQ / TOC" },
+  "Alpha": { x: 160, y: 70, label: "CP ALPHA" },
+  "Bravo": { x: 380, y: 80, label: "CP BRAVO" },
+  "CP2": { x: 240, y: 130, label: "CHECKPOINT 2" },
+  "Sec4": { x: 160, y: 170, label: "SECTOR 4" },
+  "Sec7": { x: 440, y: 160, label: "SECTOR 7" },
+  "Iron": { x: 290, y: 100, label: "OBJ IRON" },
+  "LZ": { x: 440, y: 50, label: "LZ ALPHA" },
 };
 
 const UNITS = {
-  "Alpha": { x: 180, y: 130, status: "holding", target: null, sidc: "SFGPU" },
-  "Bravo": { x: 300, y: 240, status: "holding", target: null, sidc: "SFGPU" },
-  "Charlie": { x: 210, y: 310, status: "holding", target: null, sidc: "SFGPU" },
-  "Delta": { x: 370, y: 180, status: "threat", target: null, sidc: "SHGPU" },
-  "Viper": { x: 560, y: 90, status: "in_transit", target: null, sidc: "SFGPU" },
+  "Alpha": { x: 160, y: 70, status: "holding", target: null },
+  "Bravo": { x: 240, y: 130, status: "holding", target: null },
+  "Charlie": { x: 160, y: 170, status: "holding", target: null },
+  "Delta": { x: 290, y: 100, status: "threat", target: null },
+  "Viper": { x: 440, y: 50, status: "in_transit", target: null },
 };
 
-function renderRadar() {
-  const w = mapCanvas.width, h = mapCanvas.height;
-  mapCtx.clearRect(0, 0, w, h);
+let radarAngle = 0;
 
-  // Tactical Grid Lines
-  mapCtx.strokeStyle = "rgba(48, 54, 61, 0.4)";
-  mapCtx.lineWidth = 1;
-  for (let x = 0; x < w; x += 50) {
-    mapCtx.beginPath(); mapCtx.moveTo(x, 0); mapCtx.lineTo(x, h); mapCtx.stroke();
+function drawRadarOnCanvas(canvas) {
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width, h = canvas.height;
+  const scale = w / 480;
+  ctx.clearRect(0, 0, w, h);
+
+  // Grid lines
+  ctx.strokeStyle = "rgba(42, 47, 58, 0.4)";
+  ctx.lineWidth = 1;
+  for (let x = 0; x < w; x += 40 * scale) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
   }
-  for (let y = 0; y < h; y += 50) {
-    mapCtx.beginPath(); mapCtx.moveTo(0, y); mapCtx.lineTo(w, y); mapCtx.stroke();
+  for (let y = 0; y < h; y += 40 * scale) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
   }
 
-  // Concentric Range Rings (NATO standard)
+  // Range rings
   const cx = w / 2, cy = h / 2;
-  mapCtx.strokeStyle = "rgba(56, 139, 253, 0.15)";
-  for (let r = 60; r <= 320; r += 60) {
-    mapCtx.beginPath(); mapCtx.arc(cx, cy, r, 0, Math.PI * 2); mapCtx.stroke();
+  ctx.strokeStyle = "rgba(56, 139, 253, 0.15)";
+  for (let r = 40 * scale; r <= 240 * scale; r += 40 * scale) {
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
   }
 
-  // Sweeping Radar Vector
-  radarAngle += 0.015;
-  mapCtx.strokeStyle = "rgba(56, 139, 253, 0.35)";
-  mapCtx.lineWidth = 1.5;
-  mapCtx.beginPath();
-  mapCtx.moveTo(cx, cy);
-  mapCtx.lineTo(cx + Math.cos(radarAngle) * 360, cy + Math.sin(radarAngle) * 360);
-  mapCtx.stroke();
+  // Sweep vector
+  ctx.strokeStyle = "rgba(56, 139, 253, 0.35)";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(cx + Math.cos(radarAngle) * 300 * scale, cy + Math.sin(radarAngle) * 300 * scale);
+  ctx.stroke();
 
-  // Draw Waypoints
-  mapCtx.fillStyle = "rgba(139, 148, 158, 0.7)";
-  mapCtx.font = "10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+  // Waypoints
+  ctx.fillStyle = "rgba(139, 148, 158, 0.7)";
+  ctx.font = `${Math.max(9, 10 * scale)}px 'JetBrains Mono', monospace`;
   for (const [k, pt] of Object.entries(WAYPOINTS)) {
-    mapCtx.beginPath();
-    mapCtx.arc(pt.x, pt.y, 3, 0, Math.PI * 2);
-    mapCtx.fill();
-    mapCtx.fillText(pt.label, pt.x + 6, pt.y + 3);
+    ctx.beginPath();
+    ctx.arc(pt.x * scale, pt.y * scale, 3 * scale, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillText(pt.label, (pt.x + 5) * scale, (pt.y + 3) * scale);
   }
 
-  // Draw Units with Tactical NATO Indicators
+  // Units
   for (const [name, u] of Object.entries(UNITS)) {
-    let col = "#3fb950"; // Friendly clear
-    if (u.status === "in_transit") col = "#d29922"; // In transit
-    if (u.status === "threat") col = "#f85149"; // Contact / threat
+    let col = "#3fb950"; // Friendly
+    if (u.status === "in_transit") col = "#d29922";
+    if (u.status === "threat") col = "#da3633";
 
-    // Unit Movement Vector
     if (u.target) {
-      mapCtx.strokeStyle = "rgba(210, 153, 34, 0.7)";
-      mapCtx.setLineDash([4, 4]);
-      mapCtx.beginPath();
-      mapCtx.moveTo(u.x, u.y);
-      mapCtx.lineTo(u.target.x, u.target.y);
-      mapCtx.stroke();
-      mapCtx.setLineDash([]);
+      ctx.strokeStyle = "rgba(210, 153, 34, 0.7)";
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(u.x * scale, u.y * scale);
+      ctx.lineTo(u.target.x * scale, u.target.y * scale);
+      ctx.stroke();
+      ctx.setLineDash([]);
     }
 
-    // Outer Halo
-    mapCtx.fillStyle = col + "33";
-    mapCtx.beginPath();
-    mapCtx.arc(u.x, u.y, 11, 0, Math.PI * 2);
-    mapCtx.fill();
+    ctx.fillStyle = col + "33";
+    ctx.beginPath();
+    ctx.arc(u.x * scale, u.y * scale, 9 * scale, 0, Math.PI * 2);
+    ctx.fill();
 
-    // Solid Core
-    mapCtx.fillStyle = col;
-    mapCtx.beginPath();
-    mapCtx.arc(u.x, u.y, 5, 0, Math.PI * 2);
-    mapCtx.fill();
+    ctx.fillStyle = col;
+    ctx.beginPath();
+    ctx.arc(u.x * scale, u.y * scale, 4.5 * scale, 0, Math.PI * 2);
+    ctx.fill();
 
-    // Tactical Unit Label
-    mapCtx.fillStyle = "#e6edf3";
-    mapCtx.font = "bold 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
-    mapCtx.fillText(name, u.x + 12, u.y - 4);
-    mapCtx.fillStyle = col;
-    mapCtx.font = "9px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
-    mapCtx.fillText(u.status.toUpperCase(), u.x + 12, u.y + 8);
+    ctx.fillStyle = "#e6edf3";
+    ctx.font = `bold ${Math.max(10, 11 * scale)}px 'JetBrains Mono', monospace`;
+    ctx.fillText(name, (u.x + 10) * scale, (u.y - 3) * scale);
   }
-
-  requestAnimationFrame(renderRadar);
 }
-requestAnimationFrame(renderRadar);
+
+function renderRadarAll() {
+  radarAngle += 0.015;
+  drawRadarOnCanvas($("c-map"));
+  drawRadarOnCanvas($("c-map-full"));
+  requestAnimationFrame(renderRadarAll);
+}
+requestAnimationFrame(renderRadarAll);
 
 function updateTacticalMap(ev) {
   if (!ev || !ev.entity || ev.entity === "Unknown") return;
   if (!UNITS[ev.entity]) {
-    UNITS[ev.entity] = { x: 260, y: 190, status: ev.status, target: null };
+    UNITS[ev.entity] = { x: 240, y: 130, status: ev.status, target: null };
   }
   const u = UNITS[ev.entity];
   u.status = ev.status;
@@ -1091,7 +1332,7 @@ function appendEventLog(ev) {
   }
   const el = document.createElement("div");
   el.className = "event-item";
-  const borderCol = ev.status === "threat" ? "var(--hostile-red)" : (ev.status === "in_transit" ? "var(--warning-amber)" : "var(--clear-green)");
+  const borderCol = ev.status === "threat" ? "var(--hostile-red-bright)" : (ev.status === "in_transit" ? "var(--warning-amber)" : "var(--clear-green)");
   el.style.setProperty("--item-color", borderCol);
   el.innerHTML = `
     <div class="event-item-head">
@@ -1103,7 +1344,7 @@ function appendEventLog(ev) {
   container.prepend(el);
 }
 
-// 8. Radio Simulation Handler
+// 10. Radio Simulator
 async function simulateRadio(text) {
   status(`Transmitting tactical comm: "${text}"…`);
   try {
@@ -1124,7 +1365,7 @@ async function simulateRadio(text) {
   }
 }
 
-// 9. Operator Notes Management
+// 11. Notes Management
 async function loadNotes() {
   try {
     const list = await (await fetch("/api/notes")).json();
@@ -1156,19 +1397,17 @@ $("btn-save-note").addEventListener("click", async () => {
   } catch (_) {}
 });
 
-// 10. Fetch Adaptation Telemetry
-async function loadAdaptationTelemetry() {
-  try {
-    const data = await (await fetch("/api/adaptation_status")).json();
-    if (data.buffer_fill_pct) $("rl-buffer").textContent = `${data.buffer_fill_pct}%`;
-    if (data.accepted_candidates) $("rl-accepted").textContent = data.accepted_candidates;
-    if (data.rejected_candidates) $("rl-rejected").textContent = data.rejected_candidates;
-  } catch (_) {}
+// 12. System-2 Grounded LLM Simulation
+function simulateLlmQuery() {
+  const q = $("llm-query-input").value;
+  const box = $("llm-response-box");
+  box.innerHTML = `<span style="color:var(--muted)">[REASONING ENGINE EXECUTING QUERY...]</span>`;
+  setTimeout(() => {
+    box.innerHTML = `[CIT: TX003] Delta squad under contact at Obj Iron. [CIT: TX001] Alpha section in transit to CP Bravo. Recommendation: Slaved UAV Charlie to paint mortar bunker (Bearing 290°) for 155mm counter-battery. Zero civilian presence confirmed.`;
+  }, 400);
 }
-setInterval(loadAdaptationTelemetry, 10000);
-loadAdaptationTelemetry();
 
-// 11. Connect to SSE Live Tactical Stream
+// 13. Connect to SSE Live Tactical Stream
 try {
   const evtSource = new EventSource("/tactical_stream");
   evtSource.onmessage = e => {

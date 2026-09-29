@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DRDO RL-DIAG // C4ISR-SYS.702</title>
+<!-- Material Symbols & Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-variant": "#32353c",
+            "on-primary-container": "#002959",
+            "on-secondary-fixed-variant": "#005317",
+            "tertiary-fixed": "#ffdeaa",
+            "surface-container-high": "#272a31",
+            "primary-container": "#418fff",
+            "surface": "#10131a",
+            "on-tertiary": "#422c00",
+            "on-tertiary-fixed-variant": "#5f4100",
+            "error-container": "#93000a",
+            "secondary-container": "#27a640",
+            "surface-container": "#1d2027",
+            "surface-container-highest": "#32353c",
+            "outline": "#8b919f",
+            "surface-dim": "#10131a",
+            "primary-fixed": "#d7e3ff",
+            "on-tertiary-fixed": "#271900",
+            "primary-fixed-dim": "#aac7ff",
+            "on-surface-variant": "#c1c6d6",
+            "secondary": "#67df70",
+            "on-primary-fixed-variant": "#00458e",
+            "on-tertiary-container": "#392600",
+            "surface-bright": "#363941",
+            "on-error": "#690005",
+            "background": "#10131a",
+            "on-error-container": "#ffdad6",
+            "on-secondary": "#00390d",
+            "tertiary-container": "#bd8708",
+            "surface-tint": "#aac7ff",
+            "surface-container-lowest": "#0b0e15",
+            "inverse-primary": "#005cba",
+            "tertiary": "#fabc45",
+            "secondary-fixed-dim": "#67df70",
+            "on-primary-fixed": "#001b3e",
+            "on-secondary-container": "#00320a",
+            "on-secondary-fixed": "#002105",
+            "on-background": "#e0e2ec",
+            "on-primary": "#002f65",
+            "primary": "#aac7ff",
+            "tertiary-fixed-dim": "#fabc45",
+            "error": "#ffb4ab",
+            "on-surface": "#e0e2ec",
+            "surface-container-low": "#191c23",
+            "inverse-on-surface": "#2d3038",
+            "secondary-fixed": "#83fc89",
+            "outline-variant": "#414753",
+            "inverse-surface": "#e0e2ec"
+          },
+          "borderRadius": {
+            "DEFAULT": "0rem",
+            "lg": "0rem",
+            "xl": "0rem",
+            "full": "0rem"
+          },
+          "spacing": {
+            "gutter": "0.5rem",
+            "margin-dock": "0.5rem",
+            "space-md": "0.5rem",
+            "space-sm": "0.25rem",
+            "space-xs": "0.125rem",
+            "gutter-compact": "0.25rem",
+            "space-lg": "0.75rem",
+            "space-xl": "1rem",
+            "margin": "0.75rem"
+          },
+          "fontFamily": {
+            "label-caps": ["JetBrains Mono"],
+            "headline-lg": ["Inter"],
+            "data-lg": ["JetBrains Mono"],
+            "data-md": ["JetBrains Mono"],
+            "display-md": ["JetBrains Mono"],
+            "body-md": ["Inter"],
+            "label-micro": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "display-lg": ["JetBrains Mono"],
+            "headline-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-caps": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+            "headline-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "data-lg": ["16px", { "lineHeight": "20px", "letterSpacing": "0", "fontWeight": "500" }],
+            "data-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0", "fontWeight": "400" }],
+            "display-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }],
+            "label-micro": ["9px", { "lineHeight": "12px", "letterSpacing": "0.12em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0", "fontWeight": "400" }],
+            "display-lg": ["28px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Absolute No-glow, Hairline precision rules */
+    * {
+      box-shadow: none !important;
+      text-shadow: none !important;
+      border-radius: 0px !important;
+    }
+    body {
+      background-color: #0f1115;
+      color: #e6edf3;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #0f1115;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #2a2f3a;
+    }
+    .grid-cell-well {
+      background: #13161c;
+      border: 1px solid #2a2f3a;
+    }
+    .rack-panel {
+      background: #171a21;
+      border: 1px solid #2a2f3a;
+    }
+    .crosshatch {
+      background-size: 16px 16px;
+      background-image: 
+        linear-gradient(to right, #1b1f27 1px, transparent 1px),
+        linear-gradient(to bottom, #1b1f27 1px, transparent 1px);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-surface-variant selection:text-primary">
+<!-- SHARED TOP BAR: TopNavBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-container-lowest w-full h-10 border-b border-outline-variant dark:border-outline-variant flex justify-between items-center px-space-md max-w-full fixed top-0 left-0 z-50">
+<div class="flex items-center space-x-space-md">
+<div class="flex items-center space-x-space-sm">
+<span class="material-symbols-outlined text-primary text-base select-none">shield</span>
+<span class="font-label-caps text-label-caps text-primary dark:text-primary tracking-widest uppercase">DRDO RL-DIAG // C4ISR-SYS.702</span>
+</div>
+<div class="h-4 w-px bg-outline-variant"></div>
+<!-- Shared Nav Links -->
+<nav class="hidden md:flex items-center space-x-space-xs">
+<a class="text-outline font-label-caps text-label-caps px-space-md py-1 uppercase hover:bg-surface-container hover:text-on-surface" href="#">TELEMETRY STREAM</a>
+<a class="border-b-2 border-primary-container text-primary font-label-caps text-label-caps px-space-md py-1 uppercase" href="#">PIPELINE PIP</a>
+<a class="text-outline font-label-caps text-label-caps px-space-md py-1 uppercase hover:bg-surface-container hover:text-on-surface" href="#">CANDIDATE LOG</a>
+<a class="text-outline font-label-caps text-label-caps px-space-md py-1 uppercase hover:bg-surface-container hover:text-on-surface" href="#">SAFETY MATRIX</a>
+</nav>
+</div>
+<!-- Trailing Actions from JSON -->
+<div class="flex items-center space-x-space-sm">
+<div class="hidden sm:flex items-center space-x-space-xs text-outline font-label-micro">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="material-symbols-outlined text-sm">tune</span>
+<span class="material-symbols-outlined text-sm">settings_input_component</span>
+<div class="h-3 w-px bg-outline-variant mx-1"></div>
+</div>
+<button class="px-space-md py-1 bg-surface-container-high border border-outline-variant font-label-caps text-label-caps text-on-surface hover:bg-surface-container-highest active:bg-surface-variant transition-none">
+        SECURE REPLAY
+      </button>
+<button class="px-space-md py-1 bg-surface-container-lowest border border-[#f85149] font-label-caps text-label-caps text-[#f85149] hover:bg-[#f85149] hover:text-white active:bg-[#f85149] transition-none">
+        ABORT / ROLLBACK
+      </button>
+</div>
+</header>
+<!-- SHARED SIDE NAV: SideNavBar -->
+<aside class="w-16 h-[calc(100vh-2.5rem)] bg-surface-container-low dark:bg-surface-container-low border-r border-outline-variant dark:border-outline-variant fixed top-10 left-0 flex flex-col justify-between items-center py-space-sm z-40">
+<div class="w-full flex flex-col items-center">
+<!-- Rail Header -->
+<div class="flex flex-col items-center pb-space-sm border-b border-outline-variant w-full">
+<span class="font-label-micro text-label-micro text-[#8b949e]">DRDO C-ST/ORL</span>
+<span class="font-label-micro text-[8px] text-[#414753] tracking-tighter">MIL-SPEC 810G</span>
+</div>
+<!-- Rail Active/Inactive Items -->
+<div class="w-full flex flex-col mt-space-sm">
+<a class="flex flex-col items-center justify-center w-full py-space-md text-outline hover:bg-surface-container-high hover:text-on-surface" href="#">
+<span class="material-symbols-outlined text-lg">sensors</span>
+<span class="font-label-micro text-label-micro mt-0.5">RADIO RX</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full py-space-md text-outline hover:bg-surface-container-high hover:text-on-surface" href="#">
+<span class="material-symbols-outlined text-lg">verified_user</span>
+<span class="font-label-micro text-label-micro mt-0.5">GATES</span>
+</a>
+<!-- Active Tab: RL-AGENT / PIPELINE PIP matching context -->
+<a class="flex flex-col items-center justify-center w-full py-space-md border-l-2 border-primary text-primary bg-surface-container-high dark:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined text-lg">model_training</span>
+<span class="font-label-micro text-label-micro mt-0.5">RL-AGENT</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full py-space-md text-outline hover:bg-surface-container-high hover:text-on-surface" href="#">
+<span class="material-symbols-outlined text-lg">history_toggle_off</span>
+<span class="font-label-micro text-label-micro mt-0.5">REGISTRY</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full py-space-md text-outline hover:bg-surface-container-high hover:text-on-surface" href="#">
+<span class="material-symbols-outlined text-lg">analytics</span>
+<span class="font-label-micro text-label-micro mt-0.5">PROBES</span>
+</a>
+</div>
+</div>
+<!-- CTA & Footer Rail Items -->
+<div class="w-full flex flex-col items-center space-y-space-sm border-t border-outline-variant pt-space-sm">
+<button class="w-12 py-1 bg-surface-container-high border border-outline-variant text-[8px] font-label-micro text-on-surface hover:bg-surface-bright uppercase">
+        HOT RELOAD
+      </button>
+<div class="w-full flex flex-col items-center">
+<a class="flex flex-col items-center justify-center w-full py-1 text-outline hover:text-on-surface" href="#">
+<span class="material-symbols-outlined text-base">warning</span>
+<span class="font-label-micro text-[8px]">SYS ALERTS</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full py-1 text-[#3fb950] hover:text-on-surface" href="#">
+<span class="material-symbols-outlined text-base">sync_saved_locally</span>
+<span class="font-label-micro text-[8px]">SYNC</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- MAIN VIEWPORT CONTAINER -->
+<main class="ml-16 mt-10 p-space-md flex flex-col space-y-space-md min-h-[calc(100vh-2.5rem)] bg-[#0f1115]">
+<!-- SUB-HEADER CONSOLE STRIP (Requirement 1) -->
+<div class="rack-panel p-space-md flex flex-col lg:flex-row justify-between items-start lg:items-center gap-space-md">
+<!-- Title & Emblem -->
+<div class="flex items-center space-x-space-md">
+<div class="w-9 h-9 border border-[#2a2f3a] bg-[#13161c] flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">military_tech</span>
+</div>
+<div>
+<div class="flex items-center space-x-2">
+<span class="font-label-caps text-label-caps text-[#8b949e]">DEFENSE RESEARCH &amp; DEVELOPMENT ORGANISATION</span>
+<span class="h-3 w-px bg-[#2a2f3a]"></span>
+<span class="font-label-micro text-label-micro px-1 bg-[#13161c] border border-[#2a2f3a] text-[#8b949e]">TERMINAL: DLI-LAB-4A</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-[#e6edf3] tracking-tight">
+            DRDO NEURAL ACOUSTIC ADAPTATION // CONTINUAL LEARNING &amp; AUDIT SUITE
+          </h1>
+</div>
+</div>
+<!-- Telemetry Status Ribbon -->
+<div class="flex flex-wrap items-center gap-space-sm text-[#8b949e] font-label-micro">
+<div class="flex items-center space-x-1.5 px-2 py-1 bg-[#13161c] border border-[#2a2f3a]">
+<span class="text-[#8b949e]">STEP:</span>
+<span class="font-data-md text-data-md text-[#e6edf3]">30,000</span>
+<span class="text-[8px] text-primary">(HubNet / ANCNetV3)</span>
+</div>
+<div class="flex items-center space-x-1.5 px-2 py-1 bg-[#13161c] border border-[#2a2f3a]">
+<span class="text-[#8b949e]">REGISTRY:</span>
+<span class="font-data-md text-data-md text-[#aac7ff]">artefacts/registry/chkpt_30k.pt</span>
+</div>
+<div class="flex items-center space-x-2 px-2 py-1 bg-[#13161c] border border-[#3fb950]">
+<div class="w-1.5 h-1.5 bg-[#3fb950]"></div>
+<span class="font-label-caps text-label-caps text-[#3fb950]">TEACHER-STUDENT EMA ONLINE</span>
+</div>
+<!-- Header Actions -->
+<div class="flex items-center space-x-1 ml-auto">
+<button class="px-2 py-1 bg-[#171a21] border border-[#2a2f3a] font-label-caps text-[10px] text-[#e6edf3] hover:bg-[#272a31]">
+            RELOAD WEIGHTS
+          </button>
+<button class="px-2 py-1 bg-[#171a21] border border-[#2a2f3a] font-label-caps text-[10px] text-[#e6edf3] hover:bg-[#272a31]">
+            AUDIT LOG
+          </button>
+<button class="px-2 py-1 bg-[#171a21] border border-[#388bfd] font-label-caps text-[10px] text-primary hover:bg-[#1d2027]">
+            LOCK PARAMETERS
+          </button>
+</div>
+</div>
+</div>
+<!-- SECTION 1: CONTINUAL ADAPTATION PIPELINE VISUAL FLOW (Requirement 2) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- STAGE 01: Field Radio Buffer -->
+<div class="rack-panel flex flex-col justify-between">
+<div>
+<div class="h-6 px-space-md bg-[#13161c] border-b border-[#2a2f3a] flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-[#8b949e]">STAGE 01 // FIELD RADIO BUFFER</span>
+<span class="w-1.5 h-1.5 bg-[#388bfd]"></span>
+</div>
+<div class="p-space-md space-y-space-sm">
+<div class="flex justify-between items-baseline font-label-micro">
+<span class="text-[#8b949e]">QUEUE CAPACITY</span>
+<span class="font-data-md text-data-md text-[#e6edf3]">348 / 500 CLIPS <span class="text-[#388bfd]">(69.6%)</span></span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-1.5 bg-[#13161c] border border-[#2a2f3a]">
+<div class="h-full bg-[#388bfd]" style="width: 69.6%"></div>
+</div>
+<div class="grid grid-cols-2 gap-space-xs text-[10px] font-label-micro pt-1">
+<div class="text-[#8b949e]">INGRESS: <span class="font-data-md text-[#e6edf3]">1.4 c/s</span></div>
+<div class="text-[#8b949e]">POLICY: <span class="text-[#3fb950]">FIFO ACTIVE</span></div>
+</div>
+<div class="text-[10px] text-[#8b949e] font-body-sm leading-tight border-t border-[#2a2f3a] pt-1.5">
+              SOURCES: Artillery, Armor Diesel, Rotary Wing, VHF Burst.
+            </div>
+<!-- Waveform / Sparkline Recessed Well -->
+<div class="grid-cell-well h-12 crosshatch p-1 relative flex items-end">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 24">
+<polyline fill="none" points="0,14 6,10 12,18 18,7 24,19 30,12 36,15 42,4 48,16 54,9 60,20 66,11 72,13 78,5 84,17 90,8 96,15 100,12" stroke="#388bfd" stroke-width="1.2"></polyline>
+</svg>
+<span class="absolute top-1 right-1 font-label-micro text-[8px] text-[#8b949e]">RMS 44.1kHz</span>
+</div>
+</div>
+</div>
+<div class="px-space-md py-1 bg-[#13161c] border-t border-[#2a2f3a] flex justify-between items-center font-label-micro text-[#8b949e]">
+<span>INGRESS STABILIZED</span>
+<span class="text-[#3fb950]">LATENCY 12ms</span>
+</div>
+</div>
+<!-- STAGE 02: Quality & Reality Gates -->
+<div class="rack-panel flex flex-col justify-between">
+<div>
+<div class="h-6 px-space-md bg-[#13161c] border-b border-[#2a2f3a] flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-[#8b949e]">STAGE 02 // QUALITY &amp; REALITY GATES</span>
+<span class="w-1.5 h-1.5 bg-[#3fb950]"></span>
+</div>
+<div class="p-space-md space-y-space-xs font-label-micro">
+<!-- Gate 1 -->
+<div class="p-1 bg-[#13161c] border border-[#2a2f3a] flex items-center justify-between">
+<div>
+<span class="text-[#8b949e] block text-[8px]">DNSMOS-BAK GAIN (&gt;= +0.50 dB)</span>
+<span class="font-data-md text-data-md text-[#e6edf3]">+0.74 dB</span>
+</div>
+<span class="text-[#3fb950] border border-[#3fb950] px-1 py-0.5 text-[8px]">PASS</span>
+</div>
+<!-- Gate 2 -->
+<div class="p-1 bg-[#13161c] border border-[#2a2f3a] flex items-center justify-between">
+<div>
+<span class="text-[#8b949e] block text-[8px]">SI-SNR TEACHER-EMA (&gt;= 15.0 dB)</span>
+<span class="font-data-md text-data-md text-[#e6edf3]">18.2 dB</span>
+</div>
+<span class="text-[#3fb950] border border-[#3fb950] px-1 py-0.5 text-[8px]">PASS</span>
+</div>
+<!-- Gate 3 -->
+<div class="p-1 bg-[#13161c] border border-[#2a2f3a] flex items-center justify-between">
+<div>
+<span class="text-[#8b949e] block text-[8px]">WHISPER KEYWORD AGR (&gt;= 0.90)</span>
+<span class="font-data-md text-data-md text-[#e6edf3]">0.942</span>
+</div>
+<span class="text-[#3fb950] border border-[#3fb950] px-1 py-0.5 text-[8px]">PASS</span>
+</div>
+<!-- Gate 4 -->
+<div class="p-1 bg-[#13161c] border border-[#2a2f3a] flex items-center justify-between">
+<div>
+<span class="text-[#8b949e] block text-[8px]">SILENCE FLOOR (&lt;= -60.0 dB)</span>
+<span class="font-data-md text-data-md text-[#e6edf3]">-63.8 dB</span>
+</div>
+<span class="text-[#3fb950] border border-[#3fb950] px-1 py-0.5 text-[8px]">PASS</span>
+</div>
+</div>
+</div>
+<div class="px-space-md py-1 bg-[#13161c] border-t border-[#2a2f3a] flex justify-between items-center font-label-micro text-[#8b949e]">
+<span>AGGREGATE: <span class="text-[#3fb950]">78.4% ACCEPT</span></span>
+<span class="text-[#f85149]">21.6% QUAR</span>
+</div>
+</div>
+<!-- STAGE 03: Student Training & Replay -->
+<div class="rack-panel flex flex-col justify-between">
+<div>
+<div class="h-6 px-space-md bg-[#13161c] border-b border-[#2a2f3a] flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-[#8b949e]">STAGE 03 // STUDENT TRAINING &amp; REPLAY</span>
+<span class="w-1.5 h-1.5 bg-[#388bfd]"></span>
+</div>
+<div class="p-space-md space-y-space-sm">
+<div class="text-[10px] font-label-micro text-[#8b949e] leading-tight">
+              REPLAY: <span class="text-[#e6edf3]">50% Synthetic Battlefield v3.1 True Targets</span>
+</div>
+<div class="p-1 bg-[#13161c] border border-[#2a2f3a] font-label-micro">
+<span class="text-[8px] text-[#8b949e] block">OBJECTIVE: ||S-T||² + L_STOI + L_SISNR</span>
+<div class="flex justify-between items-center mt-0.5">
+<span class="text-[#8b949e]">CURRENT LOSS:</span>
+<span class="font-data-lg text-data-lg text-[#aac7ff]">0.0142</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-xs font-label-micro text-[9px] text-[#8b949e]">
+<div>LR: <span class="text-[#e6edf3]">1e-5 (CosW)</span></div>
+<div>GRAD CLIP: <span class="text-[#e6edf3]">1.0</span></div>
+<div>EMA ALPHA: <span class="text-[#e6edf3]">0.9995</span></div>
+<div>BATCH: <span class="text-[#e6edf3]">32 Stereo</span></div>
+</div>
+<!-- Training Loss Sparkline -->
+<div class="grid-cell-well h-12 crosshatch p-1 relative flex items-end">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 24">
+<polyline fill="none" points="0,4 10,8 20,9 30,12 40,11 50,15 60,16 70,18 80,19 90,20 100,21" stroke="#3fb950" stroke-width="1.2"></polyline>
+</svg>
+<span class="absolute top-1 right-1 font-label-micro text-[8px] text-[#3fb950]">CONVERGING</span>
+</div>
+</div>
+</div>
+<div class="px-space-md py-1 bg-[#13161c] border-t border-[#2a2f3a] flex justify-between items-center font-label-micro text-[#8b949e]">
+<span>WARMUP PHASE: 100%</span>
+<span class="text-primary">EPOCH 14/20</span>
+</div>
+</div>
+<!-- STAGE 04: Promotion & Rollback Safety Registry -->
+<div class="rack-panel flex flex-col justify-between">
+<div>
+<div class="h-6 px-space-md bg-[#13161c] border-b border-[#2a2f3a] flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-[#8b949e]">STAGE 04 // SAFETY REGISTRY</span>
+<span class="w-1.5 h-1.5 bg-[#3fb950]"></span>
+</div>
+<div class="p-space-md space-y-space-sm font-label-micro">
+<div class="p-1.5 bg-[#13161c] border border-[#2a2f3a]">
+<div class="flex justify-between items-center">
+<span class="text-[#8b949e] text-[9px]">BENCHMARK SUITE:</span>
+<span class="text-[#3fb950] font-label-caps text-[9px]">NO REGRESSION</span>
+</div>
+<div class="mt-1 flex space-x-2 text-[9px]">
+<span>SI-SNR: <strong class="text-[#e6edf3]">+1.6dB</strong></span>
+<span>STOI: <strong class="text-[#e6edf3]">+0.027</strong></span>
+<span>PESQ: <strong class="text-[#e6edf3]">+0.14</strong></span>
+</div>
+</div>
+<div class="p-2 border border-[#3fb950] bg-[#13161c] flex items-center space-x-2">
+<span class="material-symbols-outlined text-[#3fb950] text-sm">verified</span>
+<div>
+<span class="font-label-caps text-[10px] text-[#3fb950] block">SHADOW WEIGHTS VERIFIED</span>
+<span class="text-[8px] text-[#8b949e]">CANDIDATE CLEARED FOR FIRMWARE DEPLOY</span>
+</div>
+</div>
+<div class="pt-1">
+<button class="w-full py-2 border border-[#f85149] bg-[#171a21] text-[#f85149] font-label-caps text-[10px] tracking-wider uppercase hover:bg-[#f85149] hover:text-white transition-none flex items-center justify-center space-x-1">
+<span class="material-symbols-outlined text-xs">gavel</span>
+<span>1-CLICK ROLLBACK TRIGGER</span>
+</button>
+</div>
+</div>
+</div>
+<div class="px-space-md py-1 bg-[#13161c] border-t border-[#2a2f3a] flex justify-between items-center font-label-micro text-[#8b949e]">
+<span>ROLLBACK POINTER: 29,500</span>
+<span class="text-[#3fb950]">READY</span>
+</div>
+</div>
+</div>
+<!-- SECTION 2: REAL-TIME TELEMETRY CHARTS & TABLES (Requirement 3) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md flex-1">
+<!-- Left Column (60%): Candidate Transmissions History Table -->
+<div class="lg:col-span-7 rack-panel flex flex-col justify-between">
+<div>
+<!-- Header Bar -->
+<div class="h-7 px-space-md bg-[#13161c] border-b border-[#2a2f3a] flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-sm text-[#8b949e]">receipt_long</span>
+<span class="font-label-caps text-label-caps text-[#e6edf3]">ADAPTATION CANDIDATES HISTORY LOG</span>
+</div>
+<span class="font-label-micro text-label-micro text-[#388bfd]">STREAM INGEST // ACTIVE</span>
+</div>
+<!-- Table Wrapper -->
+<div class="overflow-x-auto custom-scroll">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#13161c] border-b border-[#2a2f3a] font-label-caps text-[9px] text-[#8b949e]">
+<th class="py-1 px-2">TIMESTAMP</th>
+<th class="py-1 px-2">TX ID</th>
+<th class="py-1 px-2 text-right">PRE-BAK</th>
+<th class="py-1 px-2 text-right">POST-BAK</th>
+<th class="py-1 px-2 text-right">DELTA BAK</th>
+<th class="py-1 px-2 text-center">DECISION</th>
+<th class="py-1 px-2">REASON / DIAGNOSTICS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#2a2f3a] font-label-micro text-[11px]">
+<!-- Row 1 -->
+<tr class="bg-[#171a21] hover:bg-[#1d2027]">
+<td class="py-1.5 px-2 text-[#8b949e] font-data-md">14:32:04Z</td>
+<td class="py-1.5 px-2 font-data-md text-[#aac7ff]">TX-KSH-8841-A</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#8b949e]">2.12</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#e6edf3]">2.88</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#3fb950] font-semibold">+0.76 dB</td>
+<td class="py-1.5 px-2 text-center">
+<span class="px-1.5 py-0.5 border border-[#3fb950] text-[#3fb950] text-[8px] font-label-caps">ACCEPTED</span>
+</td>
+<td class="py-1.5 px-2 text-[10px] text-[#8b949e]">ALL 4 GATES PASSED</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-[#13161c] hover:bg-[#1d2027]">
+<td class="py-1.5 px-2 text-[#8b949e] font-data-md">14:31:52Z</td>
+<td class="py-1.5 px-2 font-data-md text-[#aac7ff]">TX-KSH-8840-B</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#8b949e]">1.84</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#e6edf3]">2.45</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#3fb950] font-semibold">+0.61 dB</td>
+<td class="py-1.5 px-2 text-center">
+<span class="px-1.5 py-0.5 border border-[#3fb950] text-[#3fb950] text-[8px] font-label-caps">ACCEPTED</span>
+</td>
+<td class="py-1.5 px-2 text-[10px] text-[#8b949e]">ALL 4 GATES PASSED</td>
+</tr>
+<!-- Row 3 -->
+<tr class="bg-[#171a21] hover:bg-[#1d2027]">
+<td class="py-1.5 px-2 text-[#8b949e] font-data-md">14:31:39Z</td>
+<td class="py-1.5 px-2 font-data-md text-[#aac7ff]">TX-KSH-8839-D</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#8b949e]">2.30</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#e6edf3]">2.42</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#d29922] font-semibold">+0.12 dB</td>
+<td class="py-1.5 px-2 text-center">
+<span class="px-1.5 py-0.5 border border-[#f85149] text-[#f85149] text-[8px] font-label-caps">REJECTED</span>
+</td>
+<td class="py-1.5 px-2 text-[10px] text-[#f85149]">DNSMOS GAIN &lt; +0.50 dB</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-[#13161c] hover:bg-[#1d2027]">
+<td class="py-1.5 px-2 text-[#8b949e] font-data-md">14:31:18Z</td>
+<td class="py-1.5 px-2 font-data-md text-[#aac7ff]">TX-KSH-8838-C</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#8b949e]">3.10</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#e6edf3]">3.02</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#f85149] font-semibold">-0.08 dB</td>
+<td class="py-1.5 px-2 text-center">
+<span class="px-1.5 py-0.5 border border-[#f85149] text-[#f85149] text-[8px] font-label-caps">REJECTED</span>
+</td>
+<td class="py-1.5 px-2 text-[10px] text-[#f85149]">TEACHER SI-SNR DIVERGENCE (11.4 dB)</td>
+</tr>
+<!-- Row 5 -->
+<tr class="bg-[#171a21] hover:bg-[#1d2027]">
+<td class="py-1.5 px-2 text-[#8b949e] font-data-md">14:30:55Z</td>
+<td class="py-1.5 px-2 font-data-md text-[#aac7ff]">TX-KSH-8837-A</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#8b949e]">1.95</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#e6edf3]">2.74</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#3fb950] font-semibold">+0.79 dB</td>
+<td class="py-1.5 px-2 text-center">
+<span class="px-1.5 py-0.5 border border-[#3fb950] text-[#3fb950] text-[8px] font-label-caps">ACCEPTED</span>
+</td>
+<td class="py-1.5 px-2 text-[10px] text-[#8b949e]">ALL 4 GATES PASSED</td>
+</tr>
+<!-- Row 6 -->
+<tr class="bg-[#13161c] hover:bg-[#1d2027]">
+<td class="py-1.5 px-2 text-[#8b949e] font-data-md">14:30:22Z</td>
+<td class="py-1.5 px-2 font-data-md text-[#aac7ff]">TX-KSH-8836-E</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#8b949e]">2.05</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#e6edf3]">2.15</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#d29922] font-semibold">+0.10 dB</td>
+<td class="py-1.5 px-2 text-center">
+<span class="px-1.5 py-0.5 border border-[#f85149] text-[#f85149] text-[8px] font-label-caps">REJECTED</span>
+</td>
+<td class="py-1.5 px-2 text-[10px] text-[#f85149]">SILENCE FLOOR LEAK (-54.2 dB)</td>
+</tr>
+<!-- Row 7 -->
+<tr class="bg-[#171a21] hover:bg-[#1d2027]">
+<td class="py-1.5 px-2 text-[#8b949e] font-data-md">14:29:48Z</td>
+<td class="py-1.5 px-2 font-data-md text-[#aac7ff]">TX-KSH-8835-B</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#8b949e]">1.70</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#e6edf3]">2.58</td>
+<td class="py-1.5 px-2 text-right font-data-md text-[#3fb950] font-semibold">+0.88 dB</td>
+<td class="py-1.5 px-2 text-center">
+<span class="px-1.5 py-0.5 border border-[#3fb950] text-[#3fb950] text-[8px] font-label-caps">ACCEPTED</span>
+</td>
+<td class="py-1.5 px-2 text-[10px] text-[#8b949e]">ALL 4 GATES PASSED</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Table Footer -->
+<div class="px-space-md py-1.5 bg-[#13161c] border-t border-[#2a2f3a] flex flex-wrap justify-between items-center font-label-micro text-[#8b949e]">
+<div>Showing 7 of 348 live candidate transmissions</div>
+<div class="flex items-center space-x-3">
+<span>AUTO-REFRESH: <strong class="text-[#e6edf3]">250ms</strong></span>
+<div class="h-2.5 w-px bg-[#2a2f3a]"></div>
+<span class="text-[#3fb950]">BUFFER SYNC: LOCKED</span>
+</div>
+</div>
+</div>
+<!-- Right Column (40%): Synthetic Probe Verification Matrix & Guardrails -->
+<div class="lg:col-span-5 rack-panel flex flex-col justify-between">
+<div>
+<!-- Header Bar -->
+<div class="h-7 px-space-md bg-[#13161c] border-b border-[#2a2f3a] flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-sm text-[#8b949e]">biotech</span>
+<span class="font-label-caps text-label-caps text-[#e6edf3]">SYNTHETIC PROBE MATRIX &amp; GUARDRAILS</span>
+</div>
+<span class="w-2 h-2 bg-[#3fb950]"></span>
+</div>
+<div class="p-space-md space-y-space-md">
+<!-- Metric Matrix Cards (4 Items) -->
+<div class="grid grid-cols-2 gap-space-sm font-label-micro">
+<!-- Card 1: PESQ-NB -->
+<div class="grid-cell-well p-space-sm">
+<div class="flex justify-between items-baseline">
+<span class="text-[#8b949e] text-[9px]">PESQ-NB</span>
+<span class="text-[#3fb950] text-[8px] font-label-caps">DELTA +0.14 [PASS]</span>
+</div>
+<div class="mt-1 flex items-baseline space-x-1">
+<span class="font-data-lg text-data-lg text-[#e6edf3]">2.84</span>
+<span class="text-[#8b949e] text-[9px]">/ BASE 2.70 (TGT &gt;= 2.80)</span>
+</div>
+<div class="mt-1.5 w-full h-1 bg-[#0f1115] border border-[#2a2f3a]">
+<div class="h-full bg-[#3fb950]" style="width: 82%"></div>
+</div>
+</div>
+<!-- Card 2: STOI -->
+<div class="grid-cell-well p-space-sm">
+<div class="flex justify-between items-baseline">
+<span class="text-[#8b949e] text-[9px]">STOI</span>
+<span class="text-[#3fb950] text-[8px] font-label-caps">DELTA +0.027 [PASS]</span>
+</div>
+<div class="mt-1 flex items-baseline space-x-1">
+<span class="font-data-lg text-data-lg text-[#e6edf3]">0.892</span>
+<span class="text-[#8b949e] text-[9px]">/ BASE 0.865 (TGT &gt;= 0.880)</span>
+</div>
+<div class="mt-1.5 w-full h-1 bg-[#0f1115] border border-[#2a2f3a]">
+<div class="h-full bg-[#3fb950]" style="width: 89%"></div>
+</div>
+</div>
+<!-- Card 3: SI-SNRi -->
+<div class="grid-cell-well p-space-sm">
+<div class="flex justify-between items-baseline">
+<span class="text-[#8b949e] text-[9px]">SI-SNRi</span>
+<span class="text-[#3fb950] text-[8px] font-label-caps">DELTA +1.6 dB [PASS]</span>
+</div>
+<div class="mt-1 flex items-baseline space-x-1">
+<span class="font-data-lg text-data-lg text-[#e6edf3]">+14.8 dB</span>
+<span class="text-[#8b949e] text-[9px]">/ BASE +13.2 (TGT &gt;= +14.0)</span>
+</div>
+<div class="mt-1.5 w-full h-1 bg-[#0f1115] border border-[#2a2f3a]">
+<div class="h-full bg-[#3fb950]" style="width: 78%"></div>
+</div>
+</div>
+<!-- Card 4: Silence Leakage -->
+<div class="grid-cell-well p-space-sm">
+<div class="flex justify-between items-baseline">
+<span class="text-[#8b949e] text-[9px]">SILENCE LEAKAGE</span>
+<span class="text-[#3fb950] text-[8px] font-label-caps">DELTA -4.2 dB [PASS]</span>
+</div>
+<div class="mt-1 flex items-baseline space-x-1">
+<span class="font-data-lg text-data-lg text-[#e6edf3]">-64.2 dB</span>
+<span class="text-[#8b949e] text-[9px]">/ BASE -60.0 (TGT &lt;= -60.0)</span>
+</div>
+<div class="mt-1.5 w-full h-1 bg-[#0f1115] border border-[#2a2f3a]">
+<div class="h-full bg-[#3fb950]" style="width: 94%"></div>
+</div>
+</div>
+</div>
+<!-- Synthetic Test Suite Breakdown -->
+<div class="border border-[#2a2f3a] bg-[#13161c] p-space-sm">
+<span class="font-label-caps text-[9px] text-[#8b949e] block mb-1.5 uppercase">
+                TACTICAL NOISE INJECTION SUITE // CONTINUAL EVALUATION
+              </span>
+<div class="space-y-1.5 font-label-micro">
+<div class="flex items-center justify-between">
+<span class="text-[#e6edf3] text-[10px]">155mm Bofors Blast Waveform</span>
+<div class="flex items-center space-x-2">
+<span class="font-data-md text-[#3fb950]">99.4%</span>
+<div class="w-12 h-1 bg-[#0f1115] border border-[#2a2f3a]">
+<div class="h-full bg-[#3fb950]" style="width: 99.4%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[#e6edf3] text-[10px]">BMP-2 Diesel Low-RPM Rumble</span>
+<div class="flex items-center space-x-2">
+<span class="font-data-md text-[#3fb950]">98.8%</span>
+<div class="w-12 h-1 bg-[#0f1115] border border-[#2a2f3a]">
+<div class="h-full bg-[#3fb950]" style="width: 98.8%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[#e6edf3] text-[10px]">Mi-17 Blade Slap Harmonic</span>
+<div class="flex items-center space-x-2">
+<span class="font-data-md text-[#3fb950]">99.1%</span>
+<div class="w-12 h-1 bg-[#0f1115] border border-[#2a2f3a]">
+<div class="h-full bg-[#3fb950]" style="width: 99.1%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[#e6edf3] text-[10px]">HF Tactical Static Burst</span>
+<div class="flex items-center space-x-2">
+<span class="font-data-md text-[#3fb950]">97.6%</span>
+<div class="w-12 h-1 bg-[#0f1115] border border-[#2a2f3a]">
+<div class="h-full bg-[#3fb950]" style="width: 97.6%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="px-space-md py-1 bg-[#13161c] border-t border-[#2a2f3a] flex justify-between items-center font-label-micro text-[#8b949e]">
+<span>PROBE SET v4.8 (8,000 CYCLES)</span>
+<span class="text-[#3fb950]">STATUS: CONGRUENT</span>
+</div>
+</div>
+</div>
+<!-- SECTION 3: BOTTOM OPERATOR ACTION CONTROLS COMMAND STRIP (Requirement 4) -->
+<div class="rack-panel p-space-md flex flex-col md:flex-row justify-between items-start md:items-center gap-space-md">
+<!-- Command Actions Button Group -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Action 1: Tactical Primary Blue -->
+<button class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold hover:bg-[#58a6ff] active:bg-[#1f6feb] transition-none flex items-center space-x-1.5">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+<span>RUN NIGHTLY ADAPTATION CYCLE</span>
+</button>
+<!-- Action 2: Secondary Outlined Neutral -->
+<button class="px-3 py-1.5 bg-[#171a21] border border-[#2a2f3a] text-[#e6edf3] font-label-caps text-label-caps hover:bg-[#272a31] transition-none flex items-center space-x-1.5">
+<span class="material-symbols-outlined text-sm">fact_check</span>
+<span>TRIGGER SYNTHETIC REGRESSION PROBE</span>
+</button>
+<!-- Action 3: Critical Rollback -->
+<button class="px-3 py-1.5 bg-[#171a21] border border-[#f85149] text-[#f85149] font-label-caps text-label-caps hover:bg-[#f85149] hover:text-white transition-none flex items-center space-x-1.5">
+<span class="material-symbols-outlined text-sm">replay</span>
+<span>EMERGENCY ROLLBACK TO PREVIOUS CHECKPOINT</span>
+</button>
+<!-- Action 4: Tertiary Export Tool -->
+<button class="px-3 py-1.5 bg-[#171a21] border border-[#2a2f3a] text-[#8b949e] font-label-caps text-label-caps hover:text-[#e6edf3] hover:bg-[#272a31] transition-none flex items-center space-x-1.5">
+<span class="material-symbols-outlined text-sm">download</span>
+<span>EXPORT ADAPTATION AUDIT REPORT</span>
+</button>
+</div>
+<!-- Compliance & Hardware Metadata -->
+<div class="font-label-micro text-right text-[#8b949e]">
+<div class="text-[9px] uppercase tracking-wider text-[#e6edf3]">
+          MIL-STD-1472H HUMAN FACTORS COMPLIANT
+        </div>
+<div class="text-[8px] text-[#414753] mt-0.5">
+          ORL ENGINE v4.2.1 // NODE BLR-KSH-8849 // HASH: 9a7f82b
+        </div>
+</div>
+</div>
+</main>
+<script>
+    // Console Status Micro-ticker (Strictly functional & non-obtrusive)
+    (function initDiagnosticsConsole() {
+      let stepCount = 30000;
+      setInterval(() => {
+        // Minimal telemetry heartbeat increment
+        stepCount += 1;
+      }, 5000);
+    })();
+  </script>
+</body></html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DRDO TACTICAL BATTLESPACE PICTURE // C4ISR SITUATIONAL MAP</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-highest": "#2d363e",
+            "error-container": "#93000a",
+            "on-primary": "#002f65",
+            "on-primary-fixed-variant": "#00458e",
+            "surface-variant": "#2d363e",
+            "on-primary-fixed": "#001b3e",
+            "secondary-fixed-dim": "#fabc45",
+            "inverse-surface": "#dae3ee",
+            "on-primary-container": "#002959",
+            "inverse-on-surface": "#29313a",
+            "surface-tint": "#aac7ff",
+            "on-secondary": "#422c00",
+            "error": "#ffb4ab",
+            "surface-container-low": "#141c24",
+            "primary-fixed": "#d7e3ff",
+            "primary-container": "#418fff",
+            "on-secondary-fixed": "#271900",
+            "outline": "#8b919f",
+            "on-tertiary": "#00390d",
+            "outline-variant": "#414753",
+            "primary": "#aac7ff",
+            "primary-fixed-dim": "#aac7ff",
+            "surface-container-lowest": "#060f16",
+            "on-surface-variant": "#c1c6d6",
+            "secondary": "#fabc45",
+            "secondary-container": "#bd8708",
+            "secondary-fixed": "#ffdeaa",
+            "on-background": "#dae3ee",
+            "surface-container": "#182028",
+            "on-error": "#690005",
+            "inverse-primary": "#005cba",
+            "on-tertiary-container": "#00320a",
+            "on-secondary-container": "#392600",
+            "tertiary-fixed-dim": "#67df70",
+            "on-tertiary-fixed": "#002105",
+            "surface": "#0b141c",
+            "on-surface": "#dae3ee",
+            "background": "#0b141c",
+            "surface-container-high": "#222b33",
+            "on-secondary-fixed-variant": "#5f4100",
+            "surface-bright": "#313a43",
+            "tertiary-container": "#27a640",
+            "surface-dim": "#0b141c",
+            "tertiary-fixed": "#83fc89",
+            "tertiary": "#67df70",
+            "on-tertiary-fixed-variant": "#005317",
+            "on-error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0px",
+            "none": "0px",
+            "sm": "0px",
+            "md": "0px",
+            "lg": "0px",
+            "xl": "0px",
+            "full": "0px"
+          },
+          "spacing": {
+            "gutter": "0.25rem",
+            "space-sm": "0.25rem",
+            "space-xs": "0.125rem",
+            "space-xl": "1rem",
+            "gutter-md": "0.5rem",
+            "margin-panel": "0.25rem",
+            "space-lg": "0.75rem",
+            "margin": "0.5rem",
+            "space-md": "0.5rem"
+          },
+          "fontFamily": {
+            "telemetry-sm": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "telemetry-lg": ["JetBrains Mono"],
+            "body-lg": ["Inter"],
+            "label-lg": ["JetBrains Mono"],
+            "body-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-lg": ["Inter"],
+            "label-md": ["JetBrains Mono"],
+            "headline-md": ["Inter"],
+            "telemetry-md": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "telemetry-sm": ["0.6875rem", { "lineHeight": "0.875rem", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "body-sm": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0em", "fontWeight": "400" }],
+            "telemetry-lg": ["1rem", { "lineHeight": "1.125rem", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "body-lg": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "label-lg": ["0.8125rem", { "lineHeight": "1rem", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "body-md": ["0.8125rem", { "lineHeight": "1.125rem", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "headline-sm": ["1rem", { "lineHeight": "1.25rem", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "label-sm": ["0.6875rem", { "lineHeight": "0.75rem", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "headline-lg": ["1.25rem", { "lineHeight": "1.5rem", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "label-md": ["0.75rem", { "lineHeight": "0.875rem", "letterSpacing": "0.025em", "fontWeight": "500" }],
+            "headline-md": ["1.125rem", { "lineHeight": "1.375rem", "letterSpacing": "0.025em", "fontWeight": "600" }],
+            "telemetry-md": ["0.8125rem", { "lineHeight": "1rem", "letterSpacing": "0.03em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    * {
+      box-sizing: border-box;
+      border-radius: 0px !important;
+    }
+    body {
+      background-color: #0b141c;
+      color: #dae3ee;
+      user-select: none;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+    }
+    /* Technical military grid & elevation lines */
+    .grid-lines {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(65, 71, 83, 0.25) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(65, 71, 83, 0.25) 1px, transparent 1px);
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #060f16;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #414753;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #8b919f;
+    }
+  </style>
+</head>
+<body class="flex flex-col h-screen w-screen bg-surface text-on-surface font-body-sm overflow-hidden antialiased">
+<!-- TOP APP BAR (Shared Component Execution) -->
+<header class="flex justify-between items-center w-full px-space-md border-b border-outline-variant bg-surface z-50 h-9 shrink-0 select-none">
+<!-- Left Section: Emblem, Title, Classification & UTM -->
+<div class="flex items-center gap-space-md">
+<!-- DRDO Emblem -->
+<div class="flex items-center justify-center w-5 h-5 bg-surface-container-highest border border-outline-variant text-primary font-bold text-[9px] tracking-tighter" title="DRDO Command Emblem">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+</div>
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface uppercase tracking-wider">
+        DRDO TACTICAL BATTLESPACE PICTURE // C4ISR SITUATIONAL MAP
+      </span>
+<span class="px-space-xs py-0 bg-error-container/40 border border-error text-error text-label-sm font-label-sm tracking-wider">
+        [RESTRICTED // SECRET - EYES ONLY]
+      </span>
+<span class="text-outline-variant text-telemetry-sm font-telemetry-sm">|</span>
+<span class="text-on-surface-variant text-telemetry-sm font-telemetry-sm">
+        GRID: <strong class="text-primary">UTM 33U VP 4821 9122</strong>
+</span>
+</div>
+<!-- Center Navigation Links from JSON (MAP-VIEW Active) -->
+<nav class="hidden xl:flex items-center gap-space-lg h-full">
+<a class="h-full flex items-center px-space-sm text-primary border-b-2 border-primary font-bold uppercase text-label-sm font-label-sm transition-colors duration-75" href="#">
+        MAP-VIEW
+      </a>
+<a class="h-full flex items-center px-space-sm text-on-surface-variant uppercase hover:text-on-surface text-label-sm font-label-sm transition-colors duration-75" href="#">
+        EW-INTEL
+      </a>
+<a class="h-full flex items-center px-space-sm text-on-surface-variant uppercase hover:text-on-surface text-label-sm font-label-sm transition-colors duration-75" href="#">
+        C2-NODE
+      </a>
+<a class="h-full flex items-center px-space-sm text-on-surface-variant uppercase hover:text-on-surface text-label-sm font-label-sm transition-colors duration-75" href="#">
+        SENSORS
+      </a>
+<a class="h-full flex items-center px-space-sm text-on-surface-variant uppercase hover:text-on-surface text-label-sm font-label-sm transition-colors duration-75" href="#">
+        FIRE-CTRL
+      </a>
+</nav>
+<!-- Right Controls: Clocks, MCP status, Sys Actions -->
+<div class="flex items-center gap-space-md">
+<!-- Clocks -->
+<div class="flex items-center gap-space-md font-telemetry-sm text-telemetry-sm px-space-sm py-0.5 bg-surface-container-lowest border border-outline-variant">
+<span>UTC: <span class="text-on-surface font-semibold" id="utc-clock">14:32:08Z</span></span>
+<span class="text-outline-variant">/</span>
+<span>IST: <span class="text-tertiary font-semibold" id="ist-clock">20:02:08</span></span>
+</div>
+<!-- MCP Tool Indicator -->
+<div class="flex items-center gap-1.5 px-space-sm py-0.5 bg-surface-container-lowest border border-tertiary/60 text-tertiary text-label-sm font-label-sm">
+<span class="w-1.5 h-1.5 bg-tertiary animate-pulse inline-block"></span>
+<span>[MCP: 4 TOOLS READY]</span>
+</div>
+<!-- Icon Actions -->
+<div class="flex items-center gap-0.5 text-on-surface-variant">
+<button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container-high hover:text-primary transition-colors duration-75" title="Grid Toggle">
+<span class="material-symbols-outlined text-[16px]">grid_on</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container-high hover:text-primary transition-colors duration-75" title="Time Schedule">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container-high hover:text-primary transition-colors duration-75" title="Radar Feed">
+<span class="material-symbols-outlined text-[16px]">radar</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center hover:bg-surface-container-high hover:text-primary transition-colors duration-75" title="Tune Channel">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+</button>
+</div>
+<!-- Trailing Primary & Secondary Buttons from JSON -->
+<button class="h-6 px-space-sm text-label-sm font-label-sm uppercase bg-surface-container border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors duration-75">
+        ACK-ALERTS
+      </button>
+<button class="h-6 px-space-sm text-label-sm font-label-sm uppercase bg-primary-container text-on-primary-container font-bold hover:bg-primary transition-colors duration-75">
+        SYS-LOCK
+      </button>
+</div>
+</header>
+<!-- MAIN OPERATIONAL WORKSPACE (70% Map Viewport / 30% Tactical Telemetry Sidebar) -->
+<main class="flex-1 flex overflow-hidden w-full relative">
+<!-- LEFT COLUMN: 70% TACTICAL GEOSPATIAL MAP CANVAS -->
+<section class="w-[70%] h-full relative flex flex-col border-r border-outline-variant bg-surface-container-lowest overflow-hidden select-none">
+<!-- TOP MAP HUD: Overlays, Coordinates, Layer Selectors -->
+<div class="h-8 w-full border-b border-outline-variant bg-surface-container-low/95 flex items-center justify-between px-space-md z-20">
+<!-- Layer Segmented Switchers -->
+<div class="flex items-center gap-space-xs text-label-sm font-label-sm">
+<span class="text-outline text-telemetry-sm mr-1">LAYERS:</span>
+<button class="px-space-sm py-0.5 bg-primary-container text-on-primary-container font-bold border border-primary">
+            CONTOUR
+          </button>
+<button class="px-space-sm py-0.5 bg-surface-container border border-outline-variant text-on-surface-variant hover:text-on-surface">
+            THERMAL EW
+          </button>
+<button class="px-space-sm py-0.5 bg-surface-container border border-outline-variant text-on-surface-variant hover:text-on-surface">
+            RF MESH
+          </button>
+<button class="px-space-sm py-0.5 bg-surface-container border border-outline-variant text-on-surface-variant hover:text-on-surface">
+            AIR CORRIDORS
+          </button>
+</div>
+<!-- Scale & Compass HUD -->
+<div class="flex items-center gap-space-lg text-telemetry-sm font-telemetry-sm text-on-surface-variant">
+<div class="flex items-center gap-1 border-x border-outline-variant px-space-md">
+<span>SCALE:</span>
+<span class="text-on-surface font-semibold">1:25,000</span>
+<div class="w-12 h-1.5 border border-outline-variant bg-surface-container flex ml-1">
+<div class="w-1/2 bg-outline-variant"></div>
+<div class="w-1/2 bg-transparent"></div>
+</div>
+<span class="text-outline text-[9px]">500m</span>
+</div>
+<!-- Compass indicator -->
+<div class="flex items-center gap-1 text-[10px] font-bold">
+<span class="text-error">N</span>
+<span class="material-symbols-outlined text-[13px] rotate-0 text-on-surface">navigation</span>
+<span class="text-outline">000°</span>
+</div>
+<!-- Cursor Crosshair Telemetry Readout -->
+<div class="flex items-center gap-2 bg-surface-container px-space-sm py-0.5 border border-outline-variant">
+<span class="text-outline">CURSOR:</span>
+<span class="text-primary font-semibold">LAT 34°12'44.2"N</span>
+<span class="text-outline">|</span>
+<span class="text-primary font-semibold">LNG 74°28'10.8"E</span>
+<span class="text-outline">|</span>
+<span>ELEV: <strong class="text-tertiary">2420m</strong></span>
+</div>
+</div>
+</div>
+<!-- GEOSPATIAL MAP VIEWPORT (VECTOR GRAPHICS & TACTICAL ELEMENTS) -->
+<div class="flex-1 relative w-full h-full grid-lines bg-[#0a1017] overflow-hidden cursor-crosshair">
+<!-- Range Rings SVG Layer -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none stroke-outline-variant/30 fill-none" style="stroke-dasharray: 2, 4;">
+<!-- 1000m, 2000m, 3000m concentric rings centered on VIPER CP (45%, 52%) -->
+<circle cx="45%" cy="52%" r="120" stroke="rgba(65, 71, 83, 0.45)" stroke-width="1"></circle>
+<circle cx="45%" cy="52%" r="240" stroke="rgba(65, 71, 83, 0.35)" stroke-width="1"></circle>
+<circle cx="45%" cy="52%" r="360" stroke="rgba(65, 71, 83, 0.25)" stroke-width="1"></circle>
+<!-- Crosshair axes centered on VIPER -->
+<line stroke="rgba(65, 71, 83, 0.25)" stroke-width="1" x1="45%" x2="45%" y1="0%" y2="100%"></line>
+<line stroke="rgba(65, 71, 83, 0.25)" stroke-width="1" x1="0%" x2="100%" y1="52%" y2="52%"></line>
+<!-- Bearing Radials with degrees -->
+<line stroke="rgba(255, 180, 171, 0.35)" stroke-dasharray="3, 3" stroke-width="1" x1="45%" x2="25%" y1="52%" y2="28%"></line>
+<line stroke="rgba(170, 199, 255, 0.35)" stroke-dasharray="2, 2" stroke-width="1" x1="45%" x2="62%" y1="52%" y2="72%"></line>
+<!-- Unit Movement Vector: Bravo section movement path -->
+<path d="M 520 440 L 590 520 L 640 560" stroke="#aac7ff" stroke-dasharray="4, 4" stroke-width="1.5"></path>
+<!-- UAV Orbit Ellipse Path -->
+<ellipse cx="68%" cy="26%" rx="90" ry="45" stroke="#aac7ff" stroke-dasharray="5, 3" stroke-width="1"></ellipse>
+<!-- Elevation Topo Contour lines (pure vector technical aesthetics) -->
+<path d="M 100 200 Q 220 180 340 260 T 550 240 T 780 340" fill="none" stroke="rgba(65, 71, 83, 0.3)" stroke-width="1"></path>
+<path d="M 80 230 Q 200 210 320 290 T 530 270 T 760 370" fill="none" stroke="rgba(65, 71, 83, 0.2)" stroke-width="1"></path>
+<path d="M 120 170 Q 240 150 360 230 T 570 210 T 800 310" fill="none" stroke="rgba(65, 71, 83, 0.2)" stroke-width="1"></path>
+</svg>
+<!-- Coordinate Grid Labels in Viewport -->
+<div class="absolute top-2 left-3 font-telemetry-sm text-[10px] text-outline-variant/60 pointer-events-none">
+          MGRS 43S ED 4100 1400 // ELEV 2200m
+        </div>
+<div class="absolute bottom-10 left-3 font-telemetry-sm text-[10px] text-outline-variant/60 pointer-events-none">
+          UTM ZONE 33U // DATUM WGS-84 // MAG DEC 1.2°E
+        </div>
+<div class="absolute top-2 right-3 font-telemetry-sm text-[10px] text-outline-variant/60 pointer-events-none">
+          SECTOR BRAVO-NORTHWEST // KASHMIR THEATRE
+        </div>
+<!-- NATO MIL-STD-2525 UNIT SYMBOLOGY PLOTS -->
+<!-- 1. FRIENDLY CP: VIPER (Command Post / Tactical SOC) at (45%, 52%) -->
+<div class="absolute left-[45%] top-[52%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer">
+<!-- NATO Friendly Symbol: Rectangle with Command Flag & Antenna -->
+<div class="relative w-10 h-7 bg-surface-container-low border-2 border-primary flex items-center justify-center">
+<span class="text-primary font-bold text-[10px]">HQ</span>
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 w-0.5 h-3 bg-primary"></div>
+<div class="absolute -top-3 left-1/2 w-2 h-1 bg-primary"></div>
+</div>
+<!-- Tag Label -->
+<div class="mt-1 px-1 bg-surface-container-lowest/90 border border-primary/50 text-[10px] font-telemetry-sm text-primary flex items-center gap-1">
+<span class="font-bold">VIPER-01</span>
+<span class="text-outline text-[9px]">[TOC]</span>
+</div>
+<!-- Velocity/Vector indicator -->
+<div class="text-[9px] font-telemetry-sm text-on-surface-variant bg-surface-container-lowest/80 px-0.5 mt-0.5">
+            STA // ZERO VEL
+          </div>
+</div>
+<!-- 2. FRIENDLY MECH INF: ALPHA SECTION at (34%, 60%) -->
+<div class="absolute left-[34%] top-[60%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer">
+<!-- NATO Infantry X Symbol -->
+<div class="relative w-9 h-6 bg-surface-container-low border-2 border-primary flex items-center justify-center">
+<div class="w-full h-full relative overflow-hidden">
+<div class="absolute inset-0 border-t border-b border-primary/20 rotate-45 scale-150"></div>
+<div class="absolute inset-0 border-t border-b border-primary/20 -rotate-45 scale-150"></div>
+<span class="absolute inset-0 flex items-center justify-center text-[9px] text-primary font-bold">INF</span>
+</div>
+</div>
+<div class="mt-1 px-1 bg-surface-container-lowest/90 border border-primary/50 text-[10px] font-telemetry-sm text-primary">
+            ALPHA SEC [HOLD]
+          </div>
+</div>
+<!-- 3. FRIENDLY ARMORED IFV: BRAVO SECTION with bearing 140° vector at (56%, 66%) -->
+<div class="absolute left-[56%] top-[66%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer">
+<!-- NATO Armor/Track Oval Symbol inside Rectangle -->
+<div class="relative w-10 h-6 bg-surface-container-low border-2 border-primary flex items-center justify-center">
+<div class="w-6 h-3 border border-primary rounded-full flex items-center justify-center">
+<span class="text-[8px] text-primary font-bold">BMP</span>
+</div>
+<!-- Heading Vector needle (140°) -->
+<div class="absolute w-6 h-0.5 bg-primary -bottom-1 -right-2 rotate-[140deg] origin-left"></div>
+</div>
+<div class="mt-1 px-1 bg-surface-container-lowest/90 border border-primary/50 text-[10px] font-telemetry-sm text-primary flex items-center gap-1">
+<span class="font-bold">BRAVO-02</span>
+<span class="text-secondary text-[9px]">140° // 24KTS</span>
+</div>
+</div>
+<!-- 4. FRIENDLY AIR UAV: CHARLIE (MQ-9 style orbiting pattern) at (68%, 26%) -->
+<div class="absolute left-[68%] top-[26%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer">
+<!-- NATO Airborne Bowtie Symbol -->
+<div class="relative w-9 h-6 bg-surface-container-low border-2 border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[15px] text-primary">flight</span>
+</div>
+<div class="mt-1 px-1 bg-surface-container-lowest/90 border border-primary/50 text-[10px] font-telemetry-sm text-primary flex flex-col items-center">
+<span class="font-bold">CHARLIE-UAV</span>
+<span class="text-tertiary text-[9px]">ALT 8,500ft // FLIR ACTIVE</span>
+</div>
+</div>
+<!-- 5. HOSTILE CONTACT: DELTA CONTACT (Red Diamond standard symbology) at (25%, 28%) -->
+<div class="absolute left-[25%] top-[28%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer">
+<!-- Threat perimeter ring around Mortar -->
+<div class="absolute -inset-8 border border-error/50 rounded-full animate-ping pointer-events-none opacity-40"></div>
+<div class="absolute -inset-7 border border-error/40 rounded-full pointer-events-none"></div>
+<!-- NATO Hostile Diamond -->
+<div class="w-7 h-7 bg-surface-container-low border-2 border-error rotate-45 flex items-center justify-center">
+<span class="-rotate-45 text-error font-bold text-[9px]">MTR</span>
+</div>
+<div class="mt-3 px-1.5 py-0.5 bg-surface-container-lowest border border-error text-[10px] font-telemetry-sm text-error flex flex-col items-center shadow-lg">
+<span class="font-bold tracking-wider">[HOSTILE] DELTA-01</span>
+<span class="text-[9px] text-on-surface-variant">BRG 290° // 1.4km FR VIPER</span>
+<span class="text-[9px] text-secondary">ACTIVE MORTAR PIT</span>
+</div>
+</div>
+<!-- 6. DISPERSAL ZONE: ARTILLERY FIRE MISSION IMPACT ZONE (Bearing 290°, near Delta) -->
+<div class="absolute left-[29%] top-[34%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+<div class="w-16 h-16 border-2 border-secondary border-dashed flex items-center justify-center">
+<span class="text-secondary text-[8px] font-telemetry-sm font-bold text-center">
+              TGT AREA<br/>R: 150m
+            </span>
+</div>
+</div>
+<!-- 7. AMBER CASUALTY MEDEVAC LZ ALPHA at (48%, 78%) -->
+<div class="absolute left-[48%] top-[78%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer">
+<!-- Amber Square Marker -->
+<div class="w-7 h-7 bg-surface-container-low border-2 border-secondary flex items-center justify-center">
+<span class="text-secondary font-bold text-[10px]">LZ</span>
+</div>
+<div class="mt-1 px-1 bg-surface-container-lowest/90 border border-secondary text-[9px] font-telemetry-sm text-secondary">
+            LZ ALPHA // INGRESS 180°
+          </div>
+</div>
+<!-- Real-time Tactical HUD Corner Watermark -->
+<div class="absolute bottom-9 right-4 pointer-events-none text-right font-telemetry-sm text-[10px] text-outline-variant/70">
+<div>DRDO ADVANCED AIR-GROUND TACTICAL SYNCHRONIZER</div>
+<div>C4ISR NODE ID: BLR-KSH-8849 // ENCR: AES-256-GCM</div>
+</div>
+</div>
+<!-- BOTTOM MAP TELEMETRY STRIP (Fixed 32px height) -->
+<div class="h-8 w-full border-t border-outline-variant bg-surface-container-low flex items-center justify-between px-space-md font-telemetry-sm text-telemetry-sm z-20">
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 bg-secondary inline-block"></span>
+<span class="text-outline">FIRE MISSION:</span>
+<span class="text-secondary font-bold">[FM-084: 155mm STANDBY]</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 bg-tertiary inline-block"></span>
+<span class="text-outline">SECTOR COMMS:</span>
+<span class="text-tertiary font-bold">[LINK-16: ACTIVE // NET-04]</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 bg-primary inline-block"></span>
+<span class="text-outline">SATCOM:</span>
+<span class="text-primary font-bold">[GSAT-7A: LOCKED 99.8%]</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant">
+<span>PACKET LOSS: <strong class="text-tertiary">0.00%</strong></span>
+<span>DOPPLER: <strong class="text-on-surface">CORRECTED</strong></span>
+<span class="text-outline-variant">|</span>
+<button class="px-space-sm py-0.5 bg-surface-container border border-outline-variant text-on-surface hover:text-primary text-[10px]">
+            RESET VIEW
+          </button>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: 30% TACTICAL SIDEBAR (High-density stacked modules) -->
+<aside class="w-[30%] h-full bg-surface-container-low flex flex-col overflow-y-auto custom-scroll border-l border-outline-variant">
+<!-- MODULE 1: MCP TOOL SERVER STATUS INDICATOR -->
+<section class="border-b border-outline-variant bg-surface-container p-space-sm">
+<div class="flex items-center justify-between pb-1 border-b border-outline-variant/60">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-tertiary">terminal</span>
+<h2 class="text-label-sm font-label-sm font-bold text-on-surface uppercase tracking-wider">
+              MCP TOOL SERVER // RPC SOCKET
+            </h2>
+</div>
+<span class="px-1 bg-tertiary/20 text-tertiary border border-tertiary text-[9px] font-telemetry-sm font-bold">
+            ONLINE
+          </span>
+</div>
+<div class="mt-space-xs font-telemetry-sm text-telemetry-sm space-y-1">
+<div class="bg-surface-container-lowest p-space-xs border border-outline-variant/60 text-outline leading-tight text-[10px]">
+<span class="text-primary">mcp_server:</span> get_situation, list_contacts, recent_transmissions, add_marker
+          </div>
+<div class="grid grid-cols-3 gap-1 pt-1 text-[10px] text-on-surface-variant">
+<div>LATENCY: <strong class="text-tertiary">3.4ms</strong></div>
+<div>POOL: <strong class="text-on-surface">512MB</strong></div>
+<div>SOCKET: <span class="text-outline" title="/var/run/drdo/mcp.sock">.../mcp.sock</span></div>
+</div>
+</div>
+</section>
+<!-- MODULE 2: SYSTEM-1 DETERMINISTIC EXTRACTION FEED -->
+<section class="border-b border-outline-variant bg-surface p-space-sm">
+<div class="flex items-center justify-between pb-1 border-b border-outline-variant/60">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">sensors</span>
+<h2 class="text-label-sm font-label-sm font-bold text-on-surface uppercase tracking-wider">
+              SYS-1 DETERMINISTIC EXTRACTION
+            </h2>
+</div>
+<span class="text-[10px] font-telemetry-sm text-outline">CONF &gt;= 75%</span>
+</div>
+<!-- Extraction Entity List -->
+<div class="mt-space-xs space-y-space-xs">
+<!-- Entity Item 1 -->
+<div class="p-space-xs bg-surface-container-low border border-outline-variant hover:border-primary transition-colors">
+<div class="flex justify-between items-center text-[10px] font-telemetry-sm">
+<span class="text-error font-bold">[DELTA-CONTACT] MORTAR PIT</span>
+<span class="px-1 bg-tertiary/10 text-tertiary border border-tertiary text-[9px]">CONF: 98.4%</span>
+</div>
+<div class="font-telemetry-sm text-[10px] text-on-surface-variant mt-0.5">
+              GRID: <span class="text-primary font-bold">MGRS 43S ED 4289 1204</span> (BRG 290°)
+            </div>
+<div class="flex gap-1 mt-1">
+<button class="px-space-xs py-0.5 bg-surface-container-high border border-outline-variant text-[9px] font-label-sm uppercase hover:text-primary">
+                Auto-Plot Marker
+              </button>
+<button class="px-space-xs py-0.5 bg-surface-container-high border border-outline-variant text-[9px] font-label-sm uppercase hover:text-primary">
+                Inject to SITREP
+              </button>
+</div>
+</div>
+<!-- Entity Item 2 -->
+<div class="p-space-xs bg-surface-container-low border border-outline-variant hover:border-primary transition-colors">
+<div class="flex justify-between items-center text-[10px] font-telemetry-sm">
+<span class="text-primary font-bold">[BRAVO-02] VECTOR UPDATE</span>
+<span class="px-1 bg-tertiary/10 text-tertiary border border-tertiary text-[9px]">CONF: 94.1%</span>
+</div>
+<div class="font-telemetry-sm text-[10px] text-on-surface-variant mt-0.5">
+              RADIAL: <span class="text-on-surface font-bold">140° DEGREES // 24 KNOTS</span>
+</div>
+<div class="flex gap-1 mt-1">
+<button class="px-space-xs py-0.5 bg-surface-container-high border border-outline-variant text-[9px] font-label-sm uppercase hover:text-primary">
+                Auto-Plot Marker
+              </button>
+<button class="px-space-xs py-0.5 bg-surface-container-high border border-outline-variant text-[9px] font-label-sm uppercase hover:text-primary">
+                Inject to SITREP
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- MODULE 3: SYSTEM-2 GROUNDED LOCAL LLM QUERY CONSOLE -->
+<section class="border-b border-outline-variant bg-surface-container-low p-space-sm flex-1 flex flex-col min-h-[220px]">
+<div class="flex items-center justify-between pb-1 border-b border-outline-variant/60">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-secondary">memory</span>
+<h2 class="text-label-sm font-label-sm font-bold text-on-surface uppercase tracking-wider">
+              SYS-2 GROUNDED REASONING // QWEN-3-14B (4-BIT GGUF)
+            </h2>
+</div>
+<span class="text-[9px] font-telemetry-sm text-tertiary px-1 border border-tertiary bg-tertiary/10">
+            ZERO-HALLUCINATION
+          </span>
+</div>
+<!-- Chat / Grounded citation stream -->
+<div class="mt-space-xs flex-1 bg-surface-container-lowest border border-outline-variant p-space-sm font-telemetry-sm text-[10px] overflow-y-auto custom-scroll space-y-1.5">
+<div class="text-outline">
+<span class="text-secondary font-bold">&gt; USER:</span> "Assess hostile mortar threat at bearing 290° and recommend suppression vector for Bravo-02."
+          </div>
+<div class="border-t border-outline-variant/40 pt-1 text-on-surface leading-relaxed">
+<span class="text-primary font-bold">&gt; SYS-2 INFERENCE:</span><br/>
+<span class="text-secondary font-semibold">[CIT: TX-143201Z]</span> Bravo-02 reports 155mm counter-battery window open.<br/>
+<span class="text-secondary font-semibold">[CIT: TX-143152Z]</span> Viper-Lead confirms suppressed ridge 4.<br/>
+<div class="mt-1 p-1 bg-surface-container border-l-2 border-primary text-on-surface">
+<strong class="text-primary">RECOMMENDATION:</strong> Direct Bravo-02 30mm autocannon suppressing fire while UAV Charlie paints target via FLIR designator. Ingress corridor via LZ Alpha holds zero radar lock.
+            </div>
+</div>
+</div>
+<!-- Query prompt box -->
+<div class="mt-space-xs flex gap-1">
+<input class="flex-1 h-6 bg-surface-container-lowest border border-outline-variant px-space-xs font-telemetry-sm text-telemetry-sm text-on-surface placeholder:text-outline-variant focus:outline-none focus:border-primary" placeholder="Query Active Ground Intelligence..." type="text"/>
+<button class="h-6 px-space-sm bg-primary-container text-on-primary-container text-label-sm font-label-sm font-bold uppercase hover:bg-primary">
+            EXEC
+          </button>
+</div>
+</section>
+<!-- MODULE 4: ACTIVE UNIT TRIAGE ROSTER -->
+<section class="bg-surface p-space-sm">
+<div class="flex items-center justify-between pb-1 border-b border-outline-variant/60">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">groups</span>
+<h2 class="text-label-sm font-label-sm font-bold text-on-surface uppercase tracking-wider">
+              ACTIVE UNIT TRIAGE ROSTER (5 NODES)
+            </h2>
+</div>
+<span class="text-[9px] font-telemetry-sm text-outline">SYNC: 100%</span>
+</div>
+<!-- Units Stacked List -->
+<div class="mt-space-xs space-y-1 font-telemetry-sm text-[10px]">
+<!-- Unit 1 -->
+<div class="flex items-center justify-between p-1 bg-surface-container border-l-2 border-primary border-t border-r border-b border-outline-variant/40">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary"></span>
+<span class="font-bold text-primary">VIPER</span>
+<span class="text-outline-variant text-[9px]">(CP / MCP)</span>
+</div>
+<span class="text-tertiary font-semibold">OPERATIONAL</span>
+</div>
+<!-- Unit 2 -->
+<div class="flex items-center justify-between p-1 bg-surface-container border-l-2 border-primary border-t border-r border-b border-outline-variant/40">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary"></span>
+<span class="font-bold text-on-surface">ALPHA SEC</span>
+<span class="text-outline-variant text-[9px]">(Infantry)</span>
+</div>
+<span class="text-on-surface-variant">Holding // AMMO: 88%</span>
+</div>
+<!-- Unit 3 -->
+<div class="flex items-center justify-between p-1 bg-surface-container border-l-2 border-primary border-t border-r border-b border-outline-variant/40">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary"></span>
+<span class="font-bold text-on-surface">BRAVO SEC</span>
+<span class="text-outline-variant text-[9px]">(BMP-2 IFV)</span>
+</div>
+<span class="text-secondary font-semibold">Overwatch // 140°</span>
+</div>
+<!-- Unit 4 -->
+<div class="flex items-center justify-between p-1 bg-surface-container border-l-2 border-primary border-t border-r border-b border-outline-variant/40">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary"></span>
+<span class="font-bold text-on-surface">CHARLIE</span>
+<span class="text-outline-variant text-[9px]">(MQ-9 UAV)</span>
+</div>
+<span class="text-tertiary">Orbit 8,500ft // FUEL 72%</span>
+</div>
+<!-- Unit 5: Hostile -->
+<div class="flex items-center justify-between p-1 bg-surface-container border-l-2 border-error border-t border-r border-b border-outline-variant/40">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-error"></span>
+<span class="font-bold text-error">DELTA</span>
+<span class="text-outline-variant text-[9px]">(Hostile Mortar)</span>
+</div>
+<span class="text-error font-semibold">SUPPRESSED // 4289 1204</span>
+</div>
+</div>
+</section>
+</aside>
+</main>
+<!-- Real-time Clock Micro-Interaction Script -->
+<script>
+    function updateZuluClocks() {
+      const now = new Date();
+      // UTC time
+      const utcHours = String(now.getUTCHours()).padStart(2, '0');
+      const utcMins = String(now.getUTCMinutes()).padStart(2, '0');
+      const utcSecs = String(now.getUTCSeconds()).padStart(2, '0');
+      document.getElementById('utc-clock').textContent = `${utcHours}:${utcMins}:${utcSecs}Z`;
+
+      // IST time (UTC + 5:30)
+      const istTime = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
+      const istHours = String(istTime.getUTCHours()).padStart(2, '0');
+      const istMins = String(istTime.getUTCMinutes()).padStart(2, '0');
+      const istSecs = String(istTime.getUTCSeconds()).padStart(2, '0');
+      document.getElementById('ist-clock').textContent = `${istHours}:${istMins}:${istSecs}`;
+    }
+    setInterval(updateZuluClocks, 1000);
+    updateZuluClocks();
+  </script>
+</body></html>

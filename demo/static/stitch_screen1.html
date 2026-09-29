@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DRDO ACINT-NET // TACTICAL ANR C4ISR WORKSTATION</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-fixed-variant": "#93000e",
+            "on-error-container": "#ffdad6",
+            "surface-container-high": "#222b33",
+            "on-primary-container": "#002959",
+            "surface-container-highest": "#2d363e",
+            "secondary": "#ffb4ac",
+            "on-secondary-container": "#ffa9a0",
+            "on-secondary": "#690007",
+            "on-primary": "#002f65",
+            "on-background": "#dae3ee",
+            "surface-variant": "#2d363e",
+            "surface-container": "#182028",
+            "on-tertiary-fixed-variant": "#5f4100",
+            "on-secondary-fixed": "#410003",
+            "on-surface": "#dae3ee",
+            "secondary-container": "#a00011",
+            "secondary-fixed": "#ffdad6",
+            "secondary-fixed-dim": "#ffb4ac",
+            "surface": "#0b141c",
+            "surface-bright": "#313a43",
+            "on-primary-fixed-variant": "#00458e",
+            "inverse-primary": "#005cba",
+            "on-error": "#690005",
+            "surface-tint": "#aac7ff",
+            "tertiary-container": "#bd8708",
+            "tertiary": "#fabc45",
+            "error": "#ffb4ab",
+            "on-surface-variant": "#c1c6d6",
+            "on-tertiary-container": "#392600",
+            "on-tertiary": "#422c00",
+            "surface-dim": "#0b141c",
+            "error-container": "#93000a",
+            "background": "#0b141c",
+            "primary": "#aac7ff",
+            "surface-container-lowest": "#060f16",
+            "on-primary-fixed": "#001b3e",
+            "outline-variant": "#414753",
+            "inverse-on-surface": "#29313a",
+            "tertiary-fixed-dim": "#fabc45",
+            "primary-container": "#418fff",
+            "primary-fixed": "#d7e3ff",
+            "tertiary-fixed": "#ffdeaa",
+            "on-tertiary-fixed": "#271900",
+            "inverse-surface": "#dae3ee",
+            "surface-container-low": "#141c24",
+            "primary-fixed-dim": "#aac7ff",
+            "outline": "#8b919f"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "0.75rem",
+            "space-xs": "0.125rem",
+            "space-md": "0.5rem",
+            "gutter": "0.5rem",
+            "space-lg": "0.75rem",
+            "space-xl": "1rem",
+            "space-sm": "0.25rem"
+          },
+          "fontFamily": {
+            "body-md": ["Inter"],
+            "telemetry-data": ["JetBrains Mono"],
+            "headline-sm": ["Inter"],
+            "body-sm": ["Inter"],
+            "label-lg": ["JetBrains Mono"],
+            "telemetry-unit": ["JetBrains Mono"],
+            "headline-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "label-md": ["JetBrains Mono"],
+            "label-sm": ["JetBrains Mono"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "body-md": ["0.8125rem", { "lineHeight": "1.125rem", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "telemetry-data": ["1.25rem", { "lineHeight": "1.25rem", "letterSpacing": "0.02em", "fontWeight": "700" }],
+            "headline-sm": ["0.875rem", { "lineHeight": "1.125rem", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "body-sm": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "label-lg": ["0.8125rem", { "lineHeight": "1rem", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "telemetry-unit": ["0.625rem", { "lineHeight": "0.75rem", "letterSpacing": "0.08em", "fontWeight": "500" }],
+            "headline-lg": ["1.5rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-md": ["1.125rem", { "lineHeight": "1.375rem", "letterSpacing": "0em", "fontWeight": "600" }],
+            "label-md": ["0.75rem", { "lineHeight": "0.875rem", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "label-sm": ["0.6875rem", { "lineHeight": "0.75rem", "letterSpacing": "0.06em", "fontWeight": "400" }],
+            "body-lg": ["0.875rem", { "lineHeight": "1.25rem", "letterSpacing": "0em", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 16px;
+      line-height: 1;
+      display: inline-block;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Oscilloscope canvas animation scan line */
+    @keyframes sweep {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    .sweep-line {
+      animation: sweep 2.4s linear infinite;
+    }
+    @keyframes radar-rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .radar-beam {
+      transform-origin: 50% 50%;
+      animation: radar-rotate 4s linear infinite;
+    }
+  </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface antialiased select-none font-body-md min-h-screen overflow-x-hidden">
+<!-- ========================================== -->
+<!-- TOP COMMAND HEADER (SHARED COMPONENT 1)   -->
+<!-- ========================================== -->
+<header class="flex justify-between items-center w-full px-margin h-10 border-b border-outline-variant bg-surface-container-lowest sticky top-0 z-50">
+<!-- Brand / Insignia Anchor -->
+<div class="flex items-center gap-space-md">
+<div class="w-5 h-5 flex items-center justify-center bg-surface-container border border-outline-variant">
+<span class="material-symbols-outlined text-primary text-xs" data-icon="crisis_alert">crisis_alert</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-lg font-label-lg text-primary uppercase tracking-widest font-bold">DRDO ACINT-NET // TACTICAL ANR C4ISR</span>
+<span class="text-telemetry-unit font-telemetry-unit text-outline tracking-wider -mt-0.5">DARE-LRDE C4ISR AUDIO-SIGINT // MIL-STD-1472H CONSOLE</span>
+</div>
+</div>
+<!-- Navigation Links from JSON Blueprint -->
+<nav class="hidden xl:flex items-center gap-space-xs">
+<a class="text-on-surface-variant hover:text-on-surface px-space-md py-1 uppercase text-label-md font-label-md transition-colors" href="#spectrum">SPECTRUM</a>
+<a class="text-primary border-b-2 border-primary font-bold px-space-md py-1 uppercase text-label-md font-label-md" href="#dsp">DSP MATRIX</a>
+<a class="text-on-surface-variant hover:text-on-surface px-space-md py-1 uppercase text-label-md font-label-md transition-colors" href="#transcript">SIGINT TRANSCRIPT</a>
+<a class="text-on-surface-variant hover:text-on-surface px-space-md py-1 uppercase text-label-md font-label-md transition-colors" href="#sector4">RADAR SECTOR 4</a>
+<a class="text-on-surface-variant hover:text-on-surface px-space-md py-1 uppercase text-label-md font-label-md transition-colors" href="#neural">NEURAL ADAPT</a>
+</nav>
+<!-- Telemetry Status Pills & Live Top Actions -->
+<div class="flex items-center gap-space-md">
+<div class="hidden lg:flex items-center gap-space-xs text-telemetry-unit font-telemetry-unit bg-surface-container px-space-md py-1 border border-outline-variant">
+<span class="w-1.5 h-1.5 bg-[#3fb950] inline-block mr-1"></span>
+<span class="text-on-surface">16 kHz DUAL-MIC [LOCKED]</span>
+<span class="text-outline mx-1">|</span>
+<span class="text-on-surface">LATENCY: 8ms FIR + 4ms NEURAL (12ms TOTAL)</span>
+<span class="text-outline mx-1">|</span>
+<span class="text-tertiary">UTC: 14:32:08Z</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-1 bg-surface-container border border-[#da3633] text-[#da3633] text-label-sm font-label-sm font-bold uppercase tracking-wider hover:bg-[#da3633] hover:text-white transition-colors" title="Erase volatile crypt-keys immediately">
+          ZEROIZE KEYS
+        </button>
+<button class="px-space-md py-1 bg-secondary-container text-white border border-[#f85149] text-label-sm font-label-sm font-bold uppercase tracking-wider hover:bg-[#b62b29] transition-colors" title="Bypass digital limiters &amp; force high-power transmission">
+          EMERGENCY OVERRIDE
+        </button>
+</div>
+<div class="h-6 w-[1px] bg-outline-variant mx-1"></div>
+<!-- Operator Badge Alt Tag Reference -->
+<div class="flex items-center gap-space-sm pl-1" title="Operator Lead Callsign VIPER-01 DRDO Unit Badge">
+<div class="w-6 h-6 border border-outline-variant bg-surface-container flex items-center justify-center text-primary font-label-md font-bold">
+          V1
+        </div>
+<div class="hidden sm:flex flex-col text-left">
+<span class="text-label-sm font-label-sm font-bold text-on-surface">VIPER-01</span>
+<span class="text-telemetry-unit font-telemetry-unit text-outline">STN 04 // CLASSIFIED</span>
+</div>
+</div>
+</div>
+</header>
+<!-- ========================================== -->
+<!-- MAIN TACTICAL WORKSPACE WITH SIDE SHELL   -->
+<!-- ========================================== -->
+<div class="flex w-full">
+<!-- SIDE NAV BAR (SHARED COMPONENT 2) -->
+<aside class="hidden md:flex flex-col justify-between h-[calc(100vh-2.5rem)] w-60 border-r border-outline-variant bg-surface-container-low shrink-0 select-none">
+<div>
+<!-- Side Nav Header -->
+<div class="p-space-md border-b border-outline-variant bg-surface-container flex items-center gap-space-md">
+<div class="w-8 h-8 bg-surface-container-lowest border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="radar">radar</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-md font-label-md font-bold text-on-surface tracking-wider">STATION 04</span>
+<span class="text-telemetry-unit font-telemetry-unit text-outline">MIL-STD-1472H CONSOLE</span>
+</div>
+</div>
+<!-- Armed CTA Status Box -->
+<div class="m-space-md p-space-sm bg-surface-container-lowest border border-[#3fb950] flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 bg-[#3fb950] inline-block animate-pulse"></span>
+<span class="text-label-sm font-label-sm font-bold text-[#3fb950]">SYSTEM ARMED</span>
+</div>
+<span class="text-telemetry-unit font-telemetry-unit text-outline">SEC-4</span>
+</div>
+<!-- Side Navigation Items -->
+<nav class="flex flex-col mt-space-sm">
+<a class="text-on-surface-variant hover:bg-surface-container px-space-md py-2 uppercase text-label-sm font-label-sm flex items-center gap-space-md border-l-2 border-transparent transition-colors" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="tune">tune</span>
+            CHANNELS &amp; I/O
+          </a>
+<a class="text-on-surface-variant hover:bg-surface-container px-space-md py-2 uppercase text-label-sm font-label-sm flex items-center gap-space-md border-l-2 border-transparent transition-colors" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="ssid_chart">ssid_chart</span>
+            SPECTRAL DECODER
+          </a>
+<a class="bg-surface-container-highest text-primary border-l-2 border-primary font-medium px-space-md py-2 uppercase text-label-sm font-label-sm flex items-center gap-space-md" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="equalizer">equalizer</span>
+            DSP FILTER ARRAY
+          </a>
+<a class="text-on-surface-variant hover:bg-surface-container px-space-md py-2 uppercase text-label-sm font-label-sm flex items-center gap-space-md border-l-2 border-transparent transition-colors" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="record_voice_over">record_voice_over</span>
+            ASR TRANSCRIPTION
+          </a>
+<a class="text-on-surface-variant hover:bg-surface-container px-space-md py-2 uppercase text-label-sm font-label-sm flex items-center gap-space-md border-l-2 border-transparent transition-colors" href="#">
+<span class="material-symbols-outlined text-outline" data-icon="radar">radar</span>
+            GEO-TACTICAL SECTOR
+          </a>
+</nav>
+</div>
+<!-- Quick Status Hardware Meters -->
+<div class="px-space-md py-space-sm border-t border-outline-variant bg-surface-container-lowest">
+<div class="flex justify-between text-telemetry-unit font-telemetry-unit text-outline mb-1">
+<span>DSP LOAD // QUAD-SHARC</span>
+<span class="text-primary font-bold">41.8%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 border border-outline-variant overflow-hidden flex">
+<div class="bg-primary h-full w-[42%]"></div>
+</div>
+<div class="flex justify-between text-telemetry-unit font-telemetry-unit text-outline mt-2 mb-1">
+<span>ANC ATTENUATION DEPTH</span>
+<span class="text-[#3fb950] font-bold">-28.4 dB</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 border border-outline-variant overflow-hidden flex">
+<div class="bg-[#3fb950] h-full w-[78%]"></div>
+</div>
+</div>
+<!-- Side Nav Footer Tabs -->
+<div class="border-t border-outline-variant p-space-sm bg-surface-container-lowest flex flex-col gap-1">
+<a class="text-on-surface-variant hover:text-primary px-space-md py-1.5 uppercase text-label-sm font-label-sm flex items-center justify-between" href="#">
+<span class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-xs" data-icon="terminal">terminal</span>
+            DIAGNOSTICS
+          </span>
+<span class="text-telemetry-unit font-telemetry-unit text-[#3fb950]">NOMINAL</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary px-space-md py-1.5 uppercase text-label-sm font-label-sm flex items-center justify-between" href="#">
+<span class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-xs" data-icon="lock">lock</span>
+            SECURE COMMS
+          </span>
+<span class="text-telemetry-unit font-telemetry-unit text-tertiary">AES-GCM</span>
+</a>
+</div>
+</aside>
+<!-- MAIN CONSOLE CANVAS -->
+<main class="flex-1 flex flex-col min-w-0 bg-[#0f1115] overflow-y-auto">
+<!-- ========================================== -->
+<!-- TACTICAL MISSION ACTION BAR                -->
+<!-- ========================================== -->
+<section class="p-space-md bg-[#171a21] border-b border-[#2a2f3a] flex flex-wrap items-center justify-between gap-space-md">
+<!-- Primary Trigger Cluster -->
+<div class="flex items-center flex-wrap gap-space-md">
+<button class="bg-[#da3633] text-white font-telemetry-data text-xs uppercase font-bold tracking-wider hover:bg-[#b62b29] px-space-xl py-2 border border-[#f85149] flex items-center gap-space-sm transition-colors cursor-pointer" id="btn-battle-noise">
+<span class="material-symbols-outlined text-white text-sm" data-icon="crisis_alert">crisis_alert</span>
+            PLAY BATTLEFIELD NOISE &amp; TEST ANC
+          </button>
+<div class="flex items-center border border-[#2a2f3a] bg-[#0f1115]">
+<button class="px-space-md py-1.5 text-label-sm font-label-sm uppercase flex items-center gap-space-sm text-on-surface hover:bg-[#1e232d] transition-colors border-r border-[#2a2f3a]">
+<span class="w-2 h-2 rounded-full bg-[#da3633] animate-pulse"></span>
+              START MIC RECORDING
+            </button>
+<button class="px-space-md py-1.5 text-label-sm font-label-sm uppercase flex items-center gap-space-sm text-on-surface-variant hover:text-on-surface hover:bg-[#1e232d] transition-colors">
+<span class="material-symbols-outlined text-xs" data-icon="graphic_eq">graphic_eq</span>
+              SAMPLE VOICE TRANSMISSION
+            </button>
+</div>
+<!-- Scenario Selector -->
+<div class="flex items-center gap-space-xs text-label-sm font-label-sm">
+<span class="text-outline uppercase font-telemetry-unit">SCENARIO:</span>
+<div class="relative">
+<select class="bg-[#0f1115] text-[#e6edf3] font-telemetry-data text-xs border border-[#2a2f3a] px-space-md py-1.5 appearance-none pr-8 focus:border-primary focus:outline-none">
+<option>CONVOY IDLE (BMP-2 DIESEL 112dB)</option>
+<option selected="">URBAN PATROL (SMALL ARMS &amp; ECHO)</option>
+<option>ARTILLERY AMBUSH (155MM BOFORS FIRE)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-outline text-xs" data-icon="settings_input_component">settings_input_component</span>
+</div>
+</div>
+</div>
+<!-- Target Calibration & Comfort Bed Toggle -->
+<div class="flex items-center flex-wrap gap-space-lg">
+<!-- SNR Slider -->
+<div class="flex items-center gap-space-md bg-[#12151b] border border-[#2a2f3a] px-space-md py-1">
+<span class="text-telemetry-unit font-telemetry-unit text-outline uppercase">TARGET SNR:</span>
+<input class="w-24 accent-primary bg-surface-container-lowest h-1.5 cursor-pointer" max="15" min="-10" step="0.5" type="range" value="6.5"/>
+<span class="text-label-md font-label-md text-primary font-bold">+6.5 dB</span>
+</div>
+<!-- Comfort Noise Toggle -->
+<label class="flex items-center gap-space-sm cursor-pointer select-none bg-[#12151b] border border-[#2a2f3a] px-space-md py-1.5">
+<div class="w-3 h-3 bg-[#0f1115] border border-outline flex items-center justify-center">
+<div class="w-1.5 h-1.5 bg-primary"></div>
+</div>
+<span class="text-telemetry-unit font-telemetry-unit text-on-surface uppercase tracking-wider">COMFORT NOISE INJECTION (PINK 45dBA)</span>
+</label>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- DUAL-STACK SPLIT WORKSPACE (55% / 45%)     -->
+<!-- ========================================== -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter p-space-md">
+<!-- ---------------------------------------- -->
+<!-- LEFT COLUMN: SIGNAL TELEMETRY & SCOPES   -->
+<!-- ---------------------------------------- -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- SCOPE 1: CHANNEL A - CLEAN SPEECH -->
+<div class="bg-[#171a21] border border-[#2a2f3a]">
+<!-- Header -->
+<div class="h-6 bg-[#12151b] border-b border-[#2a2f3a] px-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-2 h-2 bg-[#3fb950]"></span>
+<span class="text-label-sm font-label-sm font-bold text-[#e6edf3] tracking-wide">CHANNEL A: CLEAN SPEECH (NEAR-MOUTH DUAL-MIC)</span>
+</div>
+<div class="flex items-center gap-space-md text-telemetry-unit font-telemetry-unit text-outline">
+<span>SRC: MIC-ARRAY-01</span>
+<span class="text-[#3fb950] font-bold">PEAK: 0.82 FS</span>
+<span class="text-[#3fb950] font-bold">SNR: +18.2 dB</span>
+</div>
+</div>
+<!-- Waveform Canvas Mock -->
+<div class="relative h-28 bg-[#0f1115] overflow-hidden p-space-sm flex items-center justify-center">
+<div class="absolute inset-0 grid grid-cols-12 grid-rows-4 pointer-events-none opacity-20">
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-[#414753]"></div>
+</div>
+<!-- Simulated Waveform SVG -->
+<svg class="w-full h-full text-[#3fb950]" preserveaspectratio="none" viewbox="0 0 500 100">
+<path d="M0,50 L20,50 L35,42 L50,60 L65,48 L80,50 L110,50 L125,20 L140,75 L155,25 L170,70 L185,40 L200,50 L230,50 L245,35 L260,65 L275,30 L290,68 L305,50 L340,50 L355,15 L370,85 L385,22 L400,72 L415,45 L430,50 L500,50" fill="none" stroke="currentColor" stroke-width="1.75"></path>
+</svg>
+<!-- Sweep line -->
+<div class="absolute inset-y-0 w-24 bg-gradient-to-r from-transparent to-[#3fb950]/20 sweep-line pointer-events-none"></div>
+</div>
+<!-- Footer Telemetry -->
+<div class="h-5 px-space-md bg-[#12151b] border-t border-[#2a2f3a] flex items-center justify-between text-telemetry-unit font-telemetry-unit text-outline">
+<span>BANDWIDTH: 300Hz - 3.4kHz</span>
+<span>BEAMFORMING POLAR: CARDIOID HYPER-FOCUSED</span>
+<span>SAMPLING: 16.000 kHz 24-BIT</span>
+</div>
+</div>
+<!-- SCOPE 2: CHANNEL B - BATTLEFIELD BOOM INPUT -->
+<div class="bg-[#171a21] border border-[#2a2f3a]">
+<!-- Header -->
+<div class="h-6 bg-[#12151b] border-b border-[#2a2f3a] px-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-2 h-2 bg-[#d29922]"></span>
+<span class="text-label-sm font-label-sm font-bold text-[#e6edf3] tracking-wide">CHANNEL B: BATTLEFIELD BOOM INPUT (INGRESS ARTILLERY &amp; T-90 ENGINE)</span>
+</div>
+<div class="flex items-center gap-space-md text-telemetry-unit font-telemetry-unit text-outline">
+<span class="text-[#ffb4ab]">CLIPPING LIMITER: ENGAGED</span>
+<span class="text-[#fabc45] font-bold">SPL: 108.4 dB</span>
+</div>
+</div>
+<!-- Waveform Canvas Mock -->
+<div class="relative h-28 bg-[#0f1115] overflow-hidden p-space-sm flex items-center justify-center">
+<div class="absolute inset-0 grid grid-cols-12 grid-rows-4 pointer-events-none opacity-20">
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-[#414753]"></div>
+</div>
+<!-- Highly Distorted Chaotic Waveform SVG -->
+<svg class="w-full h-full text-[#fabc45]" preserveaspectratio="none" viewbox="0 0 500 100">
+<path d="M0,52 L10,35 L20,70 L30,22 L40,88 L50,12 L60,95 L70,8 L80,92 L90,18 L100,82 L110,25 L120,78 L130,10 L140,90 L150,5 L160,98 L170,12 L180,85 L190,15 L200,90 L210,12 L220,84 L230,20 L240,79 L250,15 L260,88 L270,10 L280,95 L290,5 L300,98 L310,18 L320,82 L330,20 L340,86 L350,14 L360,92 L370,10 L380,94 L390,12 L400,88 L410,16 L420,84 L430,22 L440,78 L450,15 L460,89 L470,22 L480,75 L490,30 L500,50" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+</svg>
+<!-- Transients warning tag -->
+<div class="absolute top-2 right-2 bg-error-container text-white text-telemetry-unit font-telemetry-unit px-space-sm py-0.5 border border-[#ffb4ab] font-bold">
+                ▲ REPETITIVE 155MM BLAST SIGNATURE
+              </div>
+</div>
+<!-- Footer Telemetry -->
+<div class="h-5 px-space-md bg-[#12151b] border-t border-[#2a2f3a] flex items-center justify-between text-telemetry-unit font-telemetry-unit text-outline">
+<span>FFT PEAK: 42.8 Hz (DIESEL LOW-END RUMBLE)</span>
+<span>PRESSURE WAVE INGRESS: POSITIVE PHASE</span>
+<span>PRIMARY NOISE SPL: HIGH CRITICAL</span>
+</div>
+</div>
+<!-- SCOPE 3: CHANNEL C - ANC-NET INFERENCE OUTPUT -->
+<div class="bg-[#171a21] border border-[#2a2f3a]">
+<!-- Header -->
+<div class="h-6 bg-[#12151b] border-b border-[#2a2f3a] px-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-2 h-2 bg-[#388bfd]"></span>
+<span class="text-label-sm font-label-sm font-bold text-[#e6edf3] tracking-wide">CHANNEL C: ANC-NET REAL-TIME INFERENCE OUTPUT</span>
+</div>
+<div class="flex items-center gap-space-md text-telemetry-unit font-telemetry-unit text-outline">
+<span class="text-[#388bfd] font-bold">ATTENUATION: -29.1 dB</span>
+<span class="text-on-surface">VOICE CLARITY INDEX: 96.4%</span>
+</div>
+</div>
+<!-- Cleaned Signal Output Canvas -->
+<div class="relative h-28 bg-[#0f1115] overflow-hidden p-space-sm flex items-center justify-center">
+<div class="absolute inset-0 grid grid-cols-12 grid-rows-4 pointer-events-none opacity-20">
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-r border-[#414753]"></div>
+<div class="border-b border-[#414753]"></div>
+</div>
+<!-- Restored Clean Voice Signal -->
+<svg class="w-full h-full text-primary" preserveaspectratio="none" viewbox="0 0 500 100">
+<path d="M0,50 L30,50 L45,46 L60,55 L75,48 L90,50 L120,50 L135,26 L150,72 L165,30 L180,68 L195,44 L210,50 L240,50 L255,38 L270,62 L285,35 L300,65 L315,50 L350,50 L365,22 L380,78 L395,28 L410,70 L425,46 L440,50 L500,50" fill="none" stroke="currentColor" stroke-width="2"></path>
+</svg>
+<!-- Status overlay indicator -->
+<div class="absolute bottom-2 left-2 bg-[#12151b] border border-[#2a2f3a] text-telemetry-unit font-telemetry-unit text-primary px-space-md py-0.5">
+                ● NEURAL PHASE INVERSION: SYNC CONVERGED
+              </div>
+</div>
+<!-- Metering & Level Control Strip -->
+<div class="p-space-sm bg-[#12151b] border-t border-[#2a2f3a] flex flex-col gap-1">
+<div class="flex items-center justify-between text-telemetry-unit font-telemetry-unit text-outline">
+<span>OUTPUT AGC LEVEL</span>
+<span>-48 dB       -36 dB       -24 dB       -12 dB       -6 dB       0 dB</span>
+</div>
+<!-- Segmented LED VU Meter -->
+<div class="flex gap-0.5 h-3 bg-[#0f1115] p-0.5 border border-[#2a2f3a]">
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#3fb950]"></div>
+<div class="flex-1 bg-[#fabc45]"></div>
+<div class="flex-1 bg-[#fabc45]"></div>
+<div class="flex-1 bg-[#fabc45]"></div>
+<div class="flex-1 bg-[#2a2f3a]"></div>
+<div class="flex-1 bg-[#2a2f3a]"></div>
+<div class="flex-1 bg-[#2a2f3a]"></div>
+</div>
+</div>
+</div>
+<!-- BLAST / GUNFIRE TRANSIENT DETECTOR HEAD -->
+<div class="bg-[#171a21] border border-[#2a2f3a] p-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-md">
+<div class="w-8 h-8 bg-error-container/20 border border-[#da3633] flex items-center justify-center text-[#ffb4ab]">
+<span class="material-symbols-outlined text-lg" data-icon="crisis_alert">crisis_alert</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-md font-label-md font-bold text-[#ffb4ab] tracking-wide">
+                  HIGH-G ACCELERATION TRANSIENT DETECTED at T+04.2s
+                </span>
+<span class="text-telemetry-unit font-telemetry-unit text-outline">
+                  BLAST ACOUSTIC SENSOR SHIELD // OVERPRESSURE MITIGATION
+                </span>
+</div>
+</div>
+<div class="flex items-center gap-space-md text-telemetry-unit font-telemetry-unit">
+<div class="px-space-md py-1 bg-[#0f1115] border border-[#2a2f3a]">
+<span class="text-outline">FAST MUTE GATE:</span> <span class="text-[#3fb950] font-bold">0.4ms ACTIVATED</span>
+</div>
+<div class="px-space-md py-1 bg-[#0f1115] border border-[#2a2f3a]">
+<span class="text-outline">ATTACK:</span> <span class="text-on-surface font-bold">0.1ms</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ---------------------------------------- -->
+<!-- RIGHT COLUMN: INTEL TRANSCRIPT & SITREP  -->
+<!-- ---------------------------------------- -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- ASR AUDIO INTELLIGENCE TRANSCRIPT BAY -->
+<div class="bg-[#171a21] border border-[#2a2f3a] flex flex-col h-[380px]">
+<!-- Bay Header -->
+<div class="h-6 bg-[#12151b] border-b border-[#2a2f3a] px-space-md flex items-center justify-between shrink-0">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="record_voice_over">record_voice_over</span>
+<span class="text-label-sm font-label-sm font-bold text-[#e6edf3] uppercase">ASR INTELLIGENCE FEED // FASTER-WHISPER MIL-INTEL</span>
+</div>
+<div class="flex items-center gap-space-xs text-telemetry-unit font-telemetry-unit text-[#3fb950]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#3fb950] animate-pulse"></span>
+<span>REAL-TIME STREAMING</span>
+</div>
+</div>
+<!-- Transcript Line Container -->
+<div class="flex-1 p-space-md overflow-y-auto space-y-space-md font-telemetry-data text-xs bg-[#0f1115]">
+<!-- Message Line 1 -->
+<div class="border-l-2 border-[#388bfd] pl-space-md py-1 bg-[#171a21]/50">
+<div class="flex items-center justify-between text-telemetry-unit font-telemetry-unit mb-1">
+<span class="text-outline">[14:31:52Z] CALLSIGN: <strong class="text-primary">VIPER-LEAD</strong></span>
+<span class="px-space-xs bg-[#12151b] border border-[#2a2f3a] text-[#3fb950]">CONF: 98.4%</span>
+</div>
+<p class="text-[#e6edf3] font-mono leading-relaxed">
+                  "BRAVO TWO, SUPPRESSIVE FIRE ON RIDGE 4. ADVANCE ON GRID CHARLIE NINE."
+                </p>
+</div>
+<!-- Message Line 2 -->
+<div class="border-l-2 border-[#fabc45] pl-space-md py-1 bg-[#171a21]/50">
+<div class="flex items-center justify-between text-telemetry-unit font-telemetry-unit mb-1">
+<span class="text-outline">[14:32:01Z] CALLSIGN: <strong class="text-[#fabc45]">BRAVO-02</strong></span>
+<span class="px-space-xs bg-[#12151b] border border-[#2a2f3a] text-[#3fb950]">CONF: 94.1%</span>
+</div>
+<p class="text-[#e6edf3] font-mono leading-relaxed">
+                  "ROGER VIPER, ARTILLERY DUST EFFECTIVE, MAINTAINING OVERWATCH BEARING 140."
+                </p>
+</div>
+<!-- Message Line 3 -->
+<div class="border-l-2 border-[#3fb950] pl-space-md py-1 bg-[#171a21]/50">
+<div class="flex items-center justify-between text-telemetry-unit font-telemetry-unit mb-1">
+<span class="text-outline">[14:32:06Z] CALLSIGN: <strong class="text-[#3fb950]">COMMAND-BASE</strong></span>
+<span class="px-space-xs bg-[#12151b] border border-[#2a2f3a] text-[#3fb950]">CONF: 99.1%</span>
+</div>
+<p class="text-[#e6edf3] font-mono leading-relaxed">
+                  "ALL CALLSIGNS, DRDO SECURE RELAY ONLINE. NOISE ATTENUATION AT 28.4dB."
+                </p>
+</div>
+<!-- Real-time Live Decoding Line -->
+<div class="border-l-2 border-outline-variant pl-space-md py-1 bg-[#12151b]">
+<div class="flex items-center gap-space-xs text-telemetry-unit font-telemetry-unit text-outline mb-1">
+<span>[14:32:08Z] LIVE DECODING INCOMING PACKETS...</span>
+<span class="w-1.5 h-1.5 bg-primary animate-ping"></span>
+</div>
+<p class="text-on-surface-variant font-mono italic">
+                  "...re-routing telemetry node 4 // bearing verified // awaiting sitrep..."
+                </p>
+</div>
+</div>
+<!-- Tactical Entity Extraction Badges -->
+<div class="p-space-sm bg-[#12151b] border-t border-[#2a2f3a] flex flex-wrap gap-space-xs">
+<span class="px-space-sm py-0.5 bg-[#0f1115] border border-primary text-primary text-telemetry-unit font-telemetry-unit font-bold">
+                GRID: CH-9204
+              </span>
+<span class="px-space-sm py-0.5 bg-[#0f1115] border border-[#3fb950] text-[#3fb950] text-telemetry-unit font-telemetry-unit font-bold">
+                CALLSIGN: BRAVO-02
+              </span>
+<span class="px-space-sm py-0.5 bg-[#0f1115] border border-[#ffb4ab] text-[#ffb4ab] text-telemetry-unit font-telemetry-unit font-bold">
+                THREAT LEVEL: T-1 ARMOR
+              </span>
+<span class="px-space-sm py-0.5 bg-[#0f1115] border border-[#fabc45] text-[#fabc45] text-telemetry-unit font-telemetry-unit font-bold">
+                MUNITION: 155MM HE
+              </span>
+</div>
+</div>
+<!-- LIVE RADIO CARRIER FEED TELEMETRY -->
+<div class="bg-[#171a21] border border-[#2a2f3a] p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between text-label-sm font-label-sm">
+<span class="font-bold text-[#e6edf3] uppercase">RF CARRIER METRICS (DRDO HIGH-BAND DUPLEX)</span>
+<span class="text-telemetry-unit font-telemetry-unit text-[#3fb950]">ENCRYPTED: MIL-STD-188</span>
+</div>
+<div class="grid grid-cols-3 gap-space-sm text-center">
+<div class="bg-[#0f1115] border border-[#2a2f3a] p-space-xs">
+<span class="text-telemetry-unit font-telemetry-unit text-outline block">RSSI LEVEL</span>
+<span class="text-label-md font-label-md font-bold text-primary">-68 dBm</span>
+</div>
+<div class="bg-[#0f1115] border border-[#2a2f3a] p-space-xs">
+<span class="text-telemetry-unit font-telemetry-unit text-outline block">BIT ERROR RATE</span>
+<span class="text-label-md font-label-md font-bold text-[#3fb950]">0.001%</span>
+</div>
+<div class="bg-[#0f1115] border border-[#2a2f3a] p-space-xs">
+<span class="text-telemetry-unit font-telemetry-unit text-outline block">CARRIER FREQ</span>
+<span class="text-label-md font-label-md font-bold text-[#e6edf3]">434.125 MHz</span>
+</div>
+</div>
+</div>
+<!-- OPERATOR TACTICAL NOTES PAD & SITREP DISPATCH -->
+<div class="bg-[#171a21] border border-[#2a2f3a] flex flex-col">
+<div class="h-6 bg-[#12151b] border-b border-[#2a2f3a] px-space-md flex items-center justify-between">
+<span class="text-label-sm font-label-sm font-bold text-[#e6edf3] uppercase">OPERATOR TACTICAL SITREP DRAFT</span>
+<span class="text-telemetry-unit font-telemetry-unit text-outline">STATION MEMORY BUFFER: READY</span>
+</div>
+<div class="p-space-md bg-[#0f1115] flex flex-col gap-space-sm">
+<textarea class="w-full bg-[#171a21] text-[#e6edf3] font-telemetry-data text-xs border border-[#2a2f3a] p-space-sm focus:border-primary focus:outline-none resize-none" placeholder="Enter tactical remarks..." rows="3">[SITREP-04] RIDGE 4 CONTACT VERIFIED VIA ACOUSTIC SIGNATURE. ARTILLERY NOISE SUPPRESSED. BRAVO-02 SECURE ON OVERWATCH.</textarea>
+<div class="flex justify-between items-center">
+<span class="text-telemetry-unit font-telemetry-unit text-outline">AUTO-ENCRYPT: AES-256 GCM</span>
+<button class="bg-[#171a21] hover:bg-[#1e232d] text-[#e6edf3] border border-primary px-space-xl py-1 text-label-sm font-label-sm uppercase font-bold tracking-wider transition-colors">
+                  TRANSMIT SITREP TO HQ
+                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- BOTTOM SITUATIONAL AWARENESS BAY           -->
+<!-- ========================================== -->
+<section class="p-space-md pt-0 grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- 2D NATO VECTOR COORDINATE RADAR GRID (SECTOR 4) -->
+<div class="lg:col-span-6 bg-[#171a21] border border-[#2a2f3a] flex flex-col">
+<div class="h-6 bg-[#12151b] border-b border-[#2a2f3a] px-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="radar">radar</span>
+<span class="text-label-sm font-label-sm font-bold text-[#e6edf3] uppercase">GEO-TACTICAL ACOUSTIC LOCALIZATION // SECTOR 4</span>
+</div>
+<div class="flex items-center gap-space-md text-telemetry-unit font-telemetry-unit text-outline">
+<span>FOV: 360° RANGE: 2500m</span>
+<span class="text-[#3fb950]">ACOUSTIC TRIANGULATION: ACTIVE</span>
+</div>
+</div>
+<!-- Radar Visualizer Canvas -->
+<div class="relative h-64 bg-[#060f16] flex items-center justify-center overflow-hidden">
+<!-- Azimuth Crosshairs -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-full h-[1px] bg-[#2a2f3a]"></div>
+<div class="h-full w-[1px] bg-[#2a2f3a] absolute"></div>
+</div>
+<!-- Concentric Range Rings -->
+<div class="w-24 h-24 rounded-full border border-[#2a2f3a] absolute flex items-center justify-center">
+<span class="text-telemetry-unit font-telemetry-unit text-outline/50 absolute top-0 text-[8px]">500m</span>
+</div>
+<div class="w-44 h-44 rounded-full border border-[#2a2f3a] absolute flex items-center justify-center">
+<span class="text-telemetry-unit font-telemetry-unit text-outline/50 absolute top-0 text-[8px]">1000m</span>
+</div>
+<div class="w-60 h-60 rounded-full border border-dashed border-[#2a2f3a] absolute flex items-center justify-center">
+<span class="text-telemetry-unit font-telemetry-unit text-outline/50 absolute top-0 text-[8px]">2000m</span>
+</div>
+<!-- Rotating Radar Scan Line -->
+<div class="w-60 h-60 absolute radar-beam pointer-events-none">
+<div class="w-1/2 h-1/2 border-r border-[#3fb950]/60 bg-gradient-to-tr from-transparent to-[#3fb950]/15" style="transform-origin: 100% 100%;"></div>
+</div>
+<!-- Center Station Marker (VIPER-01 Command Station) -->
+<div class="absolute z-10 flex flex-col items-center">
+<div class="w-3 h-3 bg-primary border border-white"></div>
+<span class="text-[9px] font-mono text-primary font-bold mt-1">VIPER [STN-04]</span>
+</div>
+<!-- PLOTTED TACTICAL UNITS (NATO CONVENTIONS) -->
+<!-- UNIT 1: ALPHA (Friendly Infantry Section) -->
+<div class="absolute top-16 right-24 flex items-center gap-1">
+<div class="w-2.5 h-2.5 rotate-45 border border-[#3fb950] bg-[#3fb950]/30"></div>
+<span class="text-[9px] font-mono text-[#3fb950]">ALPHA (045° 1.1k)</span>
+</div>
+<!-- UNIT 2: BRAVO (Friendly Armored Carrier BMP) -->
+<div class="absolute bottom-16 right-16 flex items-center gap-1">
+<div class="w-3 h-2 border border-[#3fb950] bg-[#3fb950]/40"></div>
+<span class="text-[9px] font-mono text-[#3fb950]">BRAVO (140° 1.8k)</span>
+</div>
+<!-- UNIT 3: CHARLIE (Scout Drone UAV) -->
+<div class="absolute top-10 left-32 flex items-center gap-1">
+<div class="w-2 h-2 rounded-full border border-primary bg-primary/40 animate-ping"></div>
+<span class="text-[9px] font-mono text-primary">CHARLIE-UAV (330°)</span>
+</div>
+<!-- UNIT 4: DELTA (Hostile Mortar Contact - Detected via Ingress Sound) -->
+<div class="absolute top-12 left-16 flex items-center gap-1">
+<div class="w-3 h-3 border border-[#da3633] bg-[#da3633]/50 flex items-center justify-center">
+<span class="w-1 h-1 bg-white"></span>
+</div>
+<span class="text-[9px] font-mono text-[#ffb4ab] font-bold">DELTA [HOSTILE MORTAR 290° 1.4k]</span>
+</div>
+<!-- Corner Coordinate Registration Marks -->
+<span class="absolute top-2 left-2 text-[#8b949e] font-mono text-[10px]">+ LAT 34°12'42"N</span>
+<span class="absolute bottom-2 left-2 text-[#8b949e] font-mono text-[10px]">+ LNG 74°28'11"E</span>
+<span class="absolute top-2 right-2 text-[#8b949e] font-mono text-[10px]">ELEV: 2420m</span>
+</div>
+<!-- Radar Sub-Strip -->
+<div class="h-6 px-space-md bg-[#12151b] border-t border-[#2a2f3a] flex items-center justify-between text-telemetry-unit font-telemetry-unit text-outline">
+<span>GRID SYSTEM: MGRS 43S ED 4289 1204</span>
+<span>BEARING SENSOR: DUAL-ARRAY TIME-DIFFERENCE-OF-ARRIVAL (TDOA)</span>
+</div>
+</div>
+<!-- NEURAL ADAPTATION & CONTINUAL SELF-TRAINING ENGINE -->
+<div class="lg:col-span-6 bg-[#171a21] border border-[#2a2f3a] flex flex-col">
+<div class="h-6 bg-[#12151b] border-b border-[#2a2f3a] px-space-md flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="settings_input_component">settings_input_component</span>
+<span class="text-label-sm font-label-sm font-bold text-[#e6edf3] uppercase">GATED CONTINUAL SELF-TRAINING ENGINE // EDGE TPU v4</span>
+</div>
+<span class="text-telemetry-unit font-telemetry-unit text-[#3fb950] font-bold">ONLINE (1.8W POWER DRAW)</span>
+</div>
+<!-- Engine Status Blocks -->
+<div class="p-space-md bg-[#0f1115] flex-1 flex flex-col justify-between gap-space-sm">
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="bg-[#171a21] border border-[#2a2f3a] p-space-sm">
+<span class="text-telemetry-unit font-telemetry-unit text-outline uppercase block">RECURRENT EPOCH LOSS</span>
+<span class="text-label-lg font-label-lg font-bold text-[#3fb950]">0.0142 (CONVERGED)</span>
+<span class="text-telemetry-unit font-telemetry-unit text-outline block mt-1">LATENCY PENALTY: ZERO</span>
+</div>
+<div class="bg-[#171a21] border border-[#2a2f3a] p-space-sm">
+<span class="text-telemetry-unit font-telemetry-unit text-outline uppercase block">MODEL QUANTIZATION</span>
+<span class="text-label-lg font-label-lg font-bold text-primary">INT8 HARDWARE ACCEL</span>
+<span class="text-telemetry-unit font-telemetry-unit text-outline block mt-1">WEIGHT DRIFT: &lt; 0.04%</span>
+</div>
+</div>
+<!-- Dynamic Noise Profile Tracking -->
+<div class="bg-[#171a21] border border-[#2a2f3a] p-space-sm">
+<div class="flex justify-between items-center mb-1 text-telemetry-unit font-telemetry-unit">
+<span class="text-outline uppercase">NOISE PROFILE SHIFT: DIESEL TURBOCHARGER HARMONICS</span>
+<span class="text-primary font-bold">UPDATE IN FLIGHT: 72%</span>
+</div>
+<div class="w-full bg-[#0f1115] h-2 border border-[#2a2f3a] overflow-hidden flex">
+<div class="bg-primary h-full w-[72%]"></div>
+</div>
+<div class="flex justify-between text-telemetry-unit font-telemetry-unit text-outline mt-1">
+<span>ESTIMATED TIME TO FULL ADAPTATION: 0.8s</span>
+<span>ATTENUATION BOOST: +4.2 dB</span>
+</div>
+</div>
+<!-- Real-time Filter Nodes Strip -->
+<div class="grid grid-cols-4 gap-space-xs text-center">
+<div class="bg-[#12151b] border border-[#3fb950] p-1">
+<span class="text-telemetry-unit font-telemetry-unit text-outline block">NODE 01</span>
+<span class="text-label-sm font-label-sm text-[#3fb950] font-bold">-24.2 dB</span>
+</div>
+<div class="bg-[#12151b] border border-[#3fb950] p-1">
+<span class="text-telemetry-unit font-telemetry-unit text-outline block">NODE 02</span>
+<span class="text-label-sm font-label-sm text-[#3fb950] font-bold">-28.9 dB</span>
+</div>
+<div class="bg-[#12151b] border border-[#3fb950] p-1">
+<span class="text-telemetry-unit font-telemetry-unit text-outline block">NODE 03</span>
+<span class="text-label-sm font-label-sm text-[#3fb950] font-bold">-31.4 dB</span>
+</div>
+<div class="bg-[#12151b] border border-primary p-1">
+<span class="text-telemetry-unit font-telemetry-unit text-outline block">NODE 04 (ADAPT)</span>
+<span class="text-label-sm font-label-sm text-primary font-bold">-18.6 dB</span>
+</div>
+</div>
+</div>
+<!-- Bottom Telemetry Footer -->
+<div class="h-6 px-space-md bg-[#12151b] border-t border-[#2a2f3a] flex items-center justify-between text-telemetry-unit font-telemetry-unit text-outline">
+<span>BACKPROPAGATION: FROZEN ON LIVE ENGINES</span>
+<span>SHADOW WEIGHTS SYNC: EVERY 250ms</span>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const battleBtn = document.getElementById('btn-battle-noise');
+      let isSimulating = false;
+
+      battleBtn.addEventListener('click', () => {
+        isSimulating = !isSimulating;
+        if (isSimulating) {
+          battleBtn.classList.remove('bg-[#da3633]', 'hover:bg-[#b62b29]');
+          battleBtn.classList.add('bg-[#3fb950]', 'hover:bg-[#2ea043]', 'border-[#2ea043]');
+          battleBtn.innerHTML = `
+            <span class="material-symbols-outlined text-white text-sm" data-icon="graphic_eq">graphic_eq</span>
+            ANC ACTIVELY SUPPRESSING 112dB NOISE
+          `;
+        } else {
+          battleBtn.classList.remove('bg-[#3fb950]', 'hover:bg-[#2ea043]', 'border-[#2ea043]');
+          battleBtn.classList.add('bg-[#da3633]', 'hover:bg-[#b62b29]', 'border-[#f85149]');
+          battleBtn.innerHTML = `
+            <span class="material-symbols-outlined text-white text-sm" data-icon="crisis_alert">crisis_alert</span>
+            PLAY BATTLEFIELD NOISE &amp; TEST ANC
+          `;
+        }
+      });
+    });
+  </script>
+</body></html>
